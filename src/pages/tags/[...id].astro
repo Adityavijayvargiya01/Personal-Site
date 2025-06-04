@@ -4,7 +4,6 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
 import { getAllTags, getPostsByTag } from '@/lib/data-utils'
-import { Icon } from 'astro-icon/components'
 
 export async function getStaticPaths() {
   const tagMap = await getAllTags()

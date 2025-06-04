@@ -4,4 +4,5 @@ description: 'TSAS or Teacher Slot Allocation System  is a web application desig
 tags: ['NextJs', 'React', 'Tailwind', 'TypeScript' , 'Supabase']
 image: '../../../public/static/TSAS.png'
 link: 'https://github.com/Adityavijayvargiya01/TSAS'
+priority: 3
 ---

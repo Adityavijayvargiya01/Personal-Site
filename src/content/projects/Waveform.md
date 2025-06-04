@@ -4,4 +4,5 @@ description: 'Waveform is a Spotify clone built with Next.js that recreates the 
 tags: ['Next.js', 'React', 'NextAuth', 'Tailwind CSS', 'Spotify API', 'TypeScript']
 image: '../../../public/static/Waveform.png'
 link: 'https://github.com/Adityavijayvargiya01/Waveform'
+priority: 4
 ---

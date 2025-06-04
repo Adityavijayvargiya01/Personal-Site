@@ -1,0 +1,34 @@
+<!-- Favicons with cache busting and transition persistence -->
+<!-- Preload the main favicon to prevent flashing -->
+<link rel="preload" href="/favicon.svg?v=2" as="image" type="image/svg+xml" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" transition:persist />
+<link rel="icon" type="image/png" href="/favicon-96x96.png?v=2" sizes="96x96" transition:persist />
+<link rel="shortcut icon" href="/favicon.ico?v=2" transition:persist />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" transition:persist />
+<meta name="apple-mobile-web-app-title" content="astro-erudite" />
+<link rel="manifest" href="/site.webmanifest?v=2" transition:persist />
+
+<script>
+  // Ensure favicon is properly set on page load and transitions
+  function ensureFavicon() {
+    // Remove any old favicon links that might be cached
+    const oldFavicons = document.querySelectorAll('link[rel*="icon"]:not([href*="?v=2"])')
+    oldFavicons.forEach(link => link.remove())
+    
+    // Ensure our new favicon is present
+    if (!document.querySelector('link[rel="icon"][href*="favicon.svg?v=2"]')) {
+      const link = document.createElement('link')
+      link.rel = 'icon'
+      link.type = 'image/svg+xml'
+      link.href = '/favicon.svg?v=2'
+      document.head.appendChild(link)
+    }
+  }
+
+  // Run on initial load
+  ensureFavicon()
+  
+  // Run on Astro view transitions
+  document.addEventListener('astro:page-load', ensureFavicon)
+  document.addEventListener('astro:after-swap', ensureFavicon)
+</script>

@@ -4,7 +4,7 @@ export const SITE: Site = {
   title: 'Aditya Vijayvargiya',
   description:
     'Personal Blog Site',
-  href: 'https://astro-erudite.vercel.app',
+  href: 'https://adityavijayvargiya.live',
   author: 'Aditya',
   locale: 'en-US',
   featuredPostCount: 2,

@@ -4,5 +4,5 @@ description: 'InstaTravel is a travel website that curates accommodations based 
 tags: ['NextJs', 'React', 'Tailwind', 'TypeScript' , 'Supabase']
 image: '../../../public/static/InstaTravel.png'
 link: 'https://github.com/Adityavijayvargiya01/InstaTravel'
-priority: 1
+priority: 2
 ---

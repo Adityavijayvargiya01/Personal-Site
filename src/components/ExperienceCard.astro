@@ -15,7 +15,7 @@ const { experience } = Astro.props
 
 <div
   class="hover:bg-secondary/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out"
->  <div class="flex flex-col gap-4 sm:flex-row">
+>  <div class="flex flex-col gap-4">
     <div class="flex justify-start sm:shrink-0">
       {        experience.data.image ? (
           <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-lg overflow-hidden border bg-white flex items-center justify-center">
@@ -84,21 +84,17 @@ const { experience } = Astro.props
       
       {
         experience.data.description && (
-          <details class="mt-3 group">
-            <summary class="flex items-center gap-2 cursor-pointer text-sm text-muted-foreground hover:text-foreground transition-colors">
-              <span>Show details</span>
-              <Icon name="lucide:arrow-down" class="size-3 transition-transform group-open:rotate-180" />
-            </summary>            <div class="mt-3 p-3 rounded-lg bg-muted/30 border">
+          <div class="mt-3">
+            <div class="mt-3 p-3 rounded-lg bg-muted/30 border">
               <div class="text-sm text-muted-foreground leading-relaxed">
                 {experience.data.description.split('.').filter(sentence => sentence.trim()).map((sentence: string) => (
-                  <div class="flex items-start gap-2 mb-2 last:mb-0">
-                    <Icon name="lucide:dot" class="size-3 mt-1 text-muted-foreground/60 flex-shrink-0" />
+                  <div class="flex items-start mb-2 last:mb-0"> 
                     <span>{sentence.trim()}.</span>
                   </div>
                 ))}
               </div>
             </div>
-          </details>
+          </div>
         )
       }
     </div>

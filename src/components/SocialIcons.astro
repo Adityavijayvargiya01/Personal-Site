@@ -12,7 +12,7 @@ interface Props {
 const { links } = Astro.props
 ---
 
-<ul class="flex flex-wrap gap-2" role="list">
+<ul class="flex flex-wrap gap-3" role="list">
   {
     links.map(({ href, label }) => (
       <li>
@@ -20,15 +20,15 @@ const { links } = Astro.props
           href={href}
           aria-label={label}
           title={label}
-          class={buttonVariants({ variant: 'outline', size: 'icon' })}
+          class={`${buttonVariants({ variant: 'outline', size: 'icon' })} size-10`}
           external
         >
           <Icon
             name={
               ICON_MAP[label as keyof typeof ICON_MAP] ||
-              'lucide:message-circle-question'
+              'ph:question-duotone'
             }
-            class="size-4"
+            class="size-6"
           />
         </Link>
       </li>

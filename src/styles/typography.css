@@ -10,27 +10,39 @@
 
     /* Don't use an <h1> in your posts, one is already generated in blog/[...id].astro */
     h1 {
-      @apply text-foreground mt-0 mb-6 scroll-mt-32 text-4xl font-medium xl:scroll-mt-20;
+      @apply text-foreground mt-0 mb-6 scroll-mt-32 text-4xl xl:scroll-mt-20;
+      font-family: var(--font-heading);
+      font-weight: 500;
     }
 
     h2 {
-      @apply text-foreground mt-8 mb-4 scroll-mt-32 text-2xl font-medium xl:scroll-mt-20;
+      @apply text-foreground mt-8 mb-4 scroll-mt-32 text-2xl xl:scroll-mt-20;
+      font-family: var(--font-heading);
+      font-weight: 500;
     }
 
     h3 {
-      @apply text-foreground mt-6 mb-4 scroll-mt-32 text-xl font-medium xl:scroll-mt-20;
+      @apply text-foreground mt-6 mb-4 scroll-mt-32 text-xl xl:scroll-mt-20;
+      font-family: var(--font-heading);
+      font-weight: 500;
     }
 
     h4 {
-      @apply text-foreground mt-6 mb-3 scroll-mt-32 text-lg font-medium xl:scroll-mt-20;
+      @apply text-foreground mt-6 mb-3 scroll-mt-32 text-lg xl:scroll-mt-20;
+      font-family: var(--font-heading);
+      font-weight: 500;
     }
 
     h5 {
-      @apply text-foreground mt-5 mb-3 scroll-mt-32 font-medium xl:scroll-mt-20;
+      @apply text-foreground mt-5 mb-3 scroll-mt-32 xl:scroll-mt-20;
+      font-family: var(--font-heading);
+      font-weight: 500;
     }
 
     h6 {
-      @apply text-foreground mt-5 mb-3 scroll-mt-32 font-medium xl:scroll-mt-20;
+      @apply text-foreground mt-5 mb-3 scroll-mt-32 xl:scroll-mt-20;
+      font-family: var(--font-heading);
+      font-weight: 500;
     }
 
     a {
@@ -38,7 +50,9 @@
     }
 
     strong {
-      @apply text-foreground font-medium;
+      @apply text-foreground;
+      font-family: var(--font-heading);
+      font-weight: 500;
     }
 
     ul {
@@ -83,8 +97,10 @@
     }
 
     th {
-      @apply px-4 py-2 font-medium;
+      @apply px-4 py-2;
       @apply text-left [&[align=center]]:text-center [&[align=right]]:text-right;
+      font-family: var(--font-heading);
+      font-weight: 500;
     }
 
     tr {
@@ -108,7 +124,9 @@
     }
 
     kbd {
-      @apply text-foreground bg-muted border-border rounded-md border px-2 py-1 text-xs font-medium;
+      @apply text-foreground bg-muted border-border rounded-md border px-2 py-1 text-xs;
+      font-family: var(--font-heading);
+      font-weight: 500;
     }
 
     .katex-display {

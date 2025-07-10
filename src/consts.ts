@@ -50,10 +50,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
 ]
 
 export const ICON_MAP: IconMap = {
-  Website: 'lucide:globe',
-  GitHub: 'lucide:github',
-  LinkedIn: 'lucide:linkedin',
-  Twitter: 'lucide:twitter',
-  Email: 'lucide:mail',
-  RSS: 'lucide:rss',
+  Website: 'ph:globe-duotone',
+  GitHub: 'ph:github-logo-duotone',
+  LinkedIn: 'ph:linkedin-logo-duotone',
+  Twitter: 'ph:x-logo-duotone',
+  Email: 'ph:envelope-duotone',
+  RSS: 'ph:rss-duotone',
 }

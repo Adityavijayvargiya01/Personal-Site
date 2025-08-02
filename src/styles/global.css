@@ -96,3 +96,7 @@
     font-weight: 500 !important;
   }
 }
+
+main img {
+  @apply rounded-lg;
+}

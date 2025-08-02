@@ -98,9 +98,10 @@ const postReadingTime = await getPostReadingTime(currentPostId)
         <Image
           src={post.data.image}
           alt={post.data.title}
-          width={800}
-          height={420}
+          width={1600}
+          height={840}
           class="col-span-full mx-auto w-full max-w-3xl object-cover rounded-lg"
+          quality="max"
         />
       )
     }

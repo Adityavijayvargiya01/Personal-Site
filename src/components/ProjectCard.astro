@@ -29,7 +29,7 @@ const { project } = Astro.props
             alt={project.data.name}
             width={1200}
             height={630}
-            class="w-full object-cover rounded-xl brightness-70 transition-all duration-500 group-hover:brightness-90 group-hover:scale-105"
+            class="w-full object-cover rounded-xl"
           />
         </div>
       )
@@ -38,7 +38,7 @@ const { project } = Astro.props
       <h3 class="mb-1 text-lg font-medium transition-colors duration-300 group-hover:text-primary">
         {project.data.name}
       </h3>
-      <p class="text-muted-foreground mb-2 text-sm transition-colors duration-300 group-hover:text-foreground/80">
+      <p class="text-muted-foreground mb-2 text-sm">
         {project.data.description}
       </p>
       {

@@ -68,7 +68,7 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
       {
         entry.data.tags && (
           <div class="flex flex-wrap gap-2">
-            {entry.data.tags.map((tag, index) => (
+                        {entry.data.tags.map((tag) => (
               <Badge variant="secondary" className="transition-colors duration-300">
                 {tag}
               </Badge>

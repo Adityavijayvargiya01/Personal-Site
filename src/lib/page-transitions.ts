@@ -145,7 +145,7 @@ class PageTransitionManager {
   }
 
   private hideLoadingIndicator() {
-    const indicator = document.querySelector('.page-loading-indicator');
+        const indicator = document.querySelector('.page-loading-indicator') as HTMLElement;
     if (indicator) {
       indicator.style.opacity = '0';
       indicator.style.transition = 'opacity 200ms ease-out';

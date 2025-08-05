@@ -14,7 +14,7 @@ const { project } = Astro.props
 ---
 
 <div
-  class="project-card group hover:bg-secondary/50 rounded-xl border p-4"
+  class="project-card group hover:bg-secondary/50 rounded-xl border p-4 hover-lift transition-smooth"
   data-scroll-animate
 >
   <Link
@@ -22,23 +22,23 @@ const { project } = Astro.props
     class="flex flex-col gap-4 sm:flex-row"
     external
   >    {
-      project.data.image && (          
-      <div class="w-full sm:max-w-3xs sm:shrink-0">          
-      <Image
+      project.data.image && (
+        <div class="w-full sm:max-w-3xs sm:shrink-0 overflow-hidden rounded-xl">
+          <Image
             src={project.data.image}
             alt={project.data.name}
             width={1200}
             height={630}
-            class="w-full object-cover rounded-xl brightness-70"
+            class="w-full object-cover rounded-xl brightness-70 transition-all duration-500 group-hover:brightness-90 group-hover:scale-105"
           />
         </div>
       )
     }
     <div class="grow">
-      <h3 class="mb-1 text-lg font-medium">
+      <h3 class="mb-1 text-lg font-medium transition-colors duration-300 group-hover:text-primary">
         {project.data.name}
       </h3>
-      <p class="text-muted-foreground mb-2 text-sm">
+      <p class="text-muted-foreground mb-2 text-sm transition-colors duration-300 group-hover:text-foreground/80">
         {project.data.description}
       </p>
       {

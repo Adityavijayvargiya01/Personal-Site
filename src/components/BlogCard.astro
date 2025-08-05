@@ -23,15 +23,15 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 ---
 
 <div
-  class="hover:bg-secondary/50 rounded-xl border p-4 transition-colors duration-300 ease-in-out"
+  class="hover:bg-secondary/50 rounded-xl border p-4 transition-colors duration-300 group"
 >
   <Link
     href={`/${entry.collection}/${entry.id}`}
-    class="flex flex-col gap-4 sm:flex-row"
+    class="flex flex-col gap-4 sm:flex-row !transform-none hover:!scale-100"
   >
     {
       entry.data.image && (
-        <div class="max-w-3xs sm:shrink-0">
+        <div class="max-w-3xs sm:shrink-0 overflow-hidden rounded-lg">
           <Image
             src={entry.data.image}
             alt={entry.data.title}
@@ -45,8 +45,8 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
     }
 
     <div class="grow">
-      <h3 class="mb-1 text-lg font-medium">{entry.data.title}</h3>
-      <p class="text-muted-foreground mb-2 text-sm">{entry.data.description}</p>      <div
+      <h3 class="mb-1 text-lg font-medium transition-colors duration-300 group-hover:text-primary">{entry.data.title}</h3>
+      <p class="text-muted-foreground mb-2 text-sm transition-colors duration-300 group-hover:text-foreground/80">{entry.data.description}</p>      <div
         class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"
       >
         <span>{formattedDate}</span>
@@ -66,9 +66,10 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
       </div>
 
       {
-        entry.data.tags && (          <div class="flex flex-wrap gap-2">
-            {entry.data.tags.map((tag) => (
-              <Badge variant="secondary">
+        entry.data.tags && (
+          <div class="flex flex-wrap gap-2">
+            {entry.data.tags.map((tag, index) => (
+              <Badge variant="secondary" className="transition-colors duration-300">
                 {tag}
               </Badge>
             ))}

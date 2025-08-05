@@ -12,8 +12,8 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
 
 <Layout>
   <PageHead slot="head" title="Home" />
-  <section>
-    <div class="rounded-lg border">
+  <section class="page-animate" data-stagger-index="0">
+    <div class="rounded-lg border hover-lift transition-smooth">
       <div class="flex flex-col space-y-1.5 p-6">
         <h3 class="text-3xl leading-none font-medium">Aditya Vijayvargiya</h3>
         <p class="text-muted-foreground text-sm">
@@ -42,24 +42,24 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
       </div>
     </div>
   </section>
-  <section class="flex flex-col gap-y-4">
+  <section class="flex flex-col gap-y-4 page-animate" data-stagger-index="1">
     <h2 class="text-2xl font-medium">Latest posts</h2>
     <ul class="flex flex-col gap-y-4">
       {
-        blog.map((post) => (
-          <li>
+        blog.map((post, index) => (
+          <li class="page-animate" data-stagger-index={index + 2}>
             <BlogCard entry={post} />
           </li>
         ))
       }
     </ul>
-    <div class="flex justify-center">
+    <div class="flex justify-center page-animate" data-stagger-index={blog.length + 2}>
       <Link
         href="/blog"
-        class={buttonVariants({ variant: 'ghost' }) + ' group'}
+        class={buttonVariants({ variant: 'ghost' }) + ' group hover-glow transition-bounce'}
       >
         See all posts <span
-          class="ml-1.5 transition-transform group-hover:translate-x-1"
+          class="ml-1.5 transition-transform group-hover:translate-x-2 group-hover:scale-110"
           >&rarr;</span
         >
       </Link>

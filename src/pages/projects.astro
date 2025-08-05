@@ -11,11 +11,15 @@ const projects = await getAllProjects()
 <Layout>
   <PageHead slot="head" title="Projects" />
   <Breadcrumbs items={[{ label: 'Projects', icon: 'ph:folder-duotone' }]} />
-  <section>
+  <section class="page-animate" data-stagger-index="0">
     <div class="min-w-full">
       <h1 class="mb-6 text-3xl font-bold">Projects</h1>
       <div class="flex flex-col gap-4">
-        {projects.map((project) => <ProjectCard project={project} />)}
+        {projects.map((project, index) => (
+          <div class="page-animate" data-stagger-index={index + 1}>
+            <ProjectCard project={project} />
+          </div>
+        ))}
       </div>
     </div>
   </section>

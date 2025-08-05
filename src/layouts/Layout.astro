@@ -2,6 +2,7 @@
 import '@/styles/global.css'
 import '@/styles/typography.css'
 
+import FloatingElements from '@/components/FloatingElements.astro'
 import Footer from '@/components/Footer.astro'
 import Head from '@/components/Head.astro'
 import Header from '@/components/Header.astro'
@@ -15,6 +16,7 @@ import Analytics from '@vercel/analytics/astro'
     <slot name="head" />
   </Head>
   <body class="overflow-x-hidden">
+    <FloatingElements />
     <div class="flex h-fit min-h-screen flex-col gap-y-6 font-sans">
       <div
         class="bg-background/50 sticky top-0 z-50 divide-y backdrop-blur-sm xl:divide-none"
@@ -30,5 +32,11 @@ import Analytics from '@vercel/analytics/astro'
       <Footer />
     </div>
     <Analytics />
+    
+    <!-- Enhanced Animation Scripts -->
+    <script>
+      import '@/lib/page-load-animations.ts';
+      import '@/lib/page-transitions.ts';
+    </script>
   </body>
 </html>

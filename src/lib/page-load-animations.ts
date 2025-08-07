@@ -45,15 +45,16 @@ class PageLoadAnimationManager {
 
       // Apply animation with stagger delay
       setTimeout(() => {
+        // Reset inline styles for a clean start
         htmlElement.style.animationDelay = '0ms';
         htmlElement.style.opacity = '0';
-        htmlElement.style.transform = 'translateY(30px)';
-        
-        // Force reflow
-        htmlElement.offsetHeight;
-        
-        // Trigger animation
-        htmlElement.style.animation = 'pageLoadFadeIn 0.4s ease forwards';
+        htmlElement.style.transform = '';
+
+        // Force reflow to ensure animation restarts
+        void htmlElement.offsetWidth;
+
+        // Trigger opacity-only animation (match CSS timing)
+        htmlElement.style.animation = 'pageLoadFadeIn 300ms ease-out forwards';
       }, delay);
     });
   }

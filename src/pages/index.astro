@@ -1,13 +1,13 @@
 ---
 import BlogCard from '@/components/BlogCard.astro'
-import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
-import { buttonVariants } from '@/components/ui/button'
-import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
-import { getRecentPosts } from '@/lib/data-utils'
+import Link from '@/components/Link.astro'
+import { getAllPosts, groupPostsByYear } from '@/lib/data-utils'
 
-const blog = await getRecentPosts(SITE.featuredPostCount)
+const allPosts = await getAllPosts()
+const postsByYear = groupPostsByYear(allPosts)
+const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
 ---
 
 <Layout>
@@ -42,27 +42,23 @@ const blog = await getRecentPosts(SITE.featuredPostCount)
       </div>
     </div>
   </section>
-  <section class="flex flex-col gap-y-4 page-animate" data-stagger-index="1">
-    <h2 class="text-2xl font-medium">Latest posts</h2>
-    <ul class="flex flex-col gap-y-4">
+  <section id="posts" class="flex flex-col gap-y-6 page-animate" data-stagger-index="1">
+    <h2 class="text-2xl font-medium">Blog</h2>
+    <div class="flex flex-col gap-y-8">
       {
-        blog.map((post, index) => (
-          <li class="page-animate" data-stagger-index={index + 2}>
-            <BlogCard entry={post} />
-          </li>
+        years.map((year, yIndex) => (
+          <section class="flex flex-col gap-y-4 page-animate" data-stagger-index={yIndex + 2}>
+            <div class="font-medium">{year}</div>
+            <ul class="flex flex-col gap-4">
+              {postsByYear[year].map((post, pIndex) => (
+                <li class="page-animate" data-stagger-index={yIndex + pIndex + 3}>
+                  <BlogCard entry={post} />
+                </li>
+              ))}
+            </ul>
+          </section>
         ))
       }
-    </ul>
-    <div class="flex justify-center page-animate" data-stagger-index={blog.length + 2}>
-      <Link
-        href="/blog"
-        class={buttonVariants({ variant: 'ghost' }) + ' group hover-glow transition-bounce'}
-      >
-        See all posts <span
-          class="ml-1.5 transition-transform group-hover:translate-x-2 group-hover:scale-110"
-          >&rarr;</span
-        >
-      </Link>
     </div>
   </section>
 </Layout>

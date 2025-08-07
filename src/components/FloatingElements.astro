@@ -28,6 +28,7 @@
     opacity: 0.03;
     background: linear-gradient(135deg, rgb(var(--primary)), rgb(var(--accent)));
     border-radius: 50%;
+    will-change: opacity;
   }
 
   .floating-square {
@@ -40,7 +41,7 @@
     height: 200px;
     top: 10%;
     left: 80%;
-    animation: float 20s ease-in-out infinite;
+    animation: subtle-pulse 8s ease-in-out infinite;
   }
 
   .floating-circle-2 {
@@ -48,7 +49,7 @@
     height: 150px;
     top: 60%;
     left: 10%;
-    animation: float 25s ease-in-out infinite reverse;
+    animation: subtle-pulse 10s ease-in-out infinite;
   }
 
   .floating-circle-3 {
@@ -56,8 +57,8 @@
     height: 100px;
     top: 30%;
     left: 20%;
-    animation: float 30s ease-in-out infinite;
-    animation-delay: -10s;
+    animation: subtle-pulse 12s ease-in-out infinite;
+    animation-delay: -6s;
   }
 
   .floating-square-1 {
@@ -65,8 +66,8 @@
     height: 80px;
     top: 70%;
     right: 15%;
-    animation: float 22s ease-in-out infinite;
-    animation-delay: -5s;
+    animation: subtle-pulse 9s ease-in-out infinite;
+    animation-delay: -4s;
   }
 
   .floating-square-2 {
@@ -74,23 +75,13 @@
     height: 60px;
     top: 15%;
     right: 40%;
-    animation: float 28s ease-in-out infinite reverse;
-    animation-delay: -15s;
+    animation: subtle-pulse 11s ease-in-out infinite;
+    animation-delay: -7s;
   }
 
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0px) rotate(0deg);
-    }
-    25% {
-      transform: translateY(-20px) rotate(90deg);
-    }
-    50% {
-      transform: translateY(-40px) rotate(180deg);
-    }
-    75% {
-      transform: translateY(-20px) rotate(270deg);
-    }
+  @keyframes subtle-pulse {
+    0%, 100% { opacity: 0.02; }
+    50% { opacity: 0.06; }
   }
 
   /* Hide floating elements on reduced motion */

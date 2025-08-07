@@ -39,10 +39,6 @@ export const SOCIAL_LINKS: SocialLink[] = [
     href: 'mailto:adityavijayvargiya2022@gmail.com',
     label: 'Email',
   },
-  {
-    href: '/rss.xml',
-    label: 'RSS', 
-  },
 ]
 
 export const ICON_MAP: IconMap = {

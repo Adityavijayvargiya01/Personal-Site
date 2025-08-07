@@ -3,6 +3,8 @@ import BlogCard from '@/components/BlogCard.astro'
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
 import Link from '@/components/Link.astro'
+import SocialIcons from '@/components/SocialIcons.astro'
+import { SOCIAL_LINKS } from '@/consts'
 import { getAllPosts, groupPostsByYear } from '@/lib/data-utils'
 
 const allPosts = await getAllPosts()
@@ -42,16 +44,21 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
       </div>
     </div>
   </section>
-  <section id="posts" class="flex flex-col gap-y-6 page-animate" data-stagger-index="1">
+  <section class="page-animate" data-stagger-index="1">
+    <div class="mx-auto flex max-w-3xl items-center justify-center px-4">
+      <SocialIcons links={SOCIAL_LINKS} />
+    </div>
+  </section>
+  <section id="posts" class="flex flex-col gap-y-6 page-animate" data-stagger-index="2">
     <h2 class="text-2xl font-medium">Blogs</h2>
     <div class="flex flex-col gap-y-8">
       {
         years.map((year, yIndex) => (
-          <section class="flex flex-col gap-y-4 page-animate" data-stagger-index={yIndex + 2}>
+          <section class="flex flex-col gap-y-4 page-animate" data-stagger-index={yIndex + 3}>
             <div class="font-medium">{year}</div>
             <ul class="flex flex-col gap-4">
               {postsByYear[year].map((post, pIndex) => (
-                <li class="page-animate" data-stagger-index={yIndex + pIndex + 3}>
+                <li class="page-animate" data-stagger-index={yIndex + pIndex + 4}>
                   <BlogCard entry={post} />
                 </li>
               ))}

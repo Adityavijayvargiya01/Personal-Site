@@ -241,6 +241,14 @@ main img {
   }
 }
 
+html::view-transition-old {
+  animation: fadeOut 1.2s ease-in forwards;
+}
+
+html::view-transition-new {
+  animation: fadeIn 1.2s ease-out forwards;
+}
+
 /* Accessibility - Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,

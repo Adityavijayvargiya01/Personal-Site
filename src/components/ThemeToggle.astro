@@ -46,16 +46,27 @@ import { Icon } from 'astro-icon/components'
     const currentTheme = element.getAttribute('data-theme')
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
 
+    element.classList.add('animate-fade-out')
     element.classList.add('[&_*]:transition-none')
-    element.setAttribute('data-theme', newTheme)
-    element.classList.remove('scheme-dark', 'scheme-light')
-    element.classList.add(newTheme === 'dark' ? 'scheme-dark' : 'scheme-light')
 
-    window.getComputedStyle(element).getPropertyValue('opacity')
+    setTimeout(() => {
+      element.setAttribute('data-theme', newTheme)
+      element.classList.remove('scheme-dark', 'scheme-light')
+      element.classList.add(newTheme === 'dark' ? 'scheme-dark' : 'scheme-light')
 
-    requestAnimationFrame(() => {
-      element.classList.remove('[&_*]:transition-none')
-    })
+      window.getComputedStyle(element).getPropertyValue('opacity')
+
+      element.classList.remove('animate-fade-out')
+      element.classList.add('animate-fade-in')
+
+      requestAnimationFrame(() => {
+        element.classList.remove('[&_*]:transition-none')
+      })
+
+      setTimeout(() => {
+        element.classList.remove('animate-fade-in')
+      }, 600) // Duration of fade-in animation
+    }, 300) // Duration of fade-out animation
 
     localStorage.setItem('theme', newTheme)
   }

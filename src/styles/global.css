@@ -113,16 +113,18 @@ main img {
 
 /* Animation Utility Classes */
 .animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
+  animation: fadeIn 0.6s ease-out forwards;
 }
 
 @keyframes fadeOut {
   from { opacity: 1; }
-  to { opacity: 0; }
+  to {
+    opacity: 0;
+  }
 }
 
 .animate-fade-out {
-  animation: fadeOut 0.3s ease-in forwards;
+  animation: fadeOut 0.6s ease-in forwards;
 }
 
 /* Removed directional/transform-based utilities to favor opacity-only */

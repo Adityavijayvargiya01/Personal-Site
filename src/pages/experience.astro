@@ -11,18 +11,20 @@ const experience = await getAllExperience()
 <Layout>
   <PageHead slot="head" title="Experience" />
   <Breadcrumbs items={[{ label: 'Experience', icon: 'ph:briefcase-duotone' }]} />
-  <section class="page-animate" data-stagger-index="0">
-    <div class="min-w-full">
-      <h1 class="mb-6 text-3xl font-bold">Work Experience</h1>
-      <p class="text-muted-foreground mb-8 text-sm leading-relaxed page-animate" data-stagger-index="1">
-        Here's a timeline of my professional journey, including internships, projects, and research work that have shaped my skills in software development.
-      </p>
-      <div class="flex flex-col gap-4">
-        {experience.map((exp, index) => (
-          <div class="page-animate" data-stagger-index={index + 2}>
-            <ExperienceCard experience={exp} />
-          </div>
-        ))}
+  <section class="page-animate" data-stagger-index="0" transition:name="main">
+    <div>
+      <div class="min-w-full">
+        <h1 class="mb-6 text-3xl font-bold">Work Experience</h1>
+        <p class="text-muted-foreground mb-8 text-sm leading-relaxed page-animate" data-stagger-index="1">
+          Here's a timeline of my professional journey, including internships, projects, and research work that have shaped my skills in software development.
+        </p>
+        <div class="flex flex-col gap-4">
+          {experience.map((exp, index) => (
+            <div class="page-animate" data-stagger-index={index + 2}>
+              <ExperienceCard experience={exp} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </section>

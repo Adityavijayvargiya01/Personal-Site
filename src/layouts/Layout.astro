@@ -8,12 +8,14 @@ import Head from '@/components/Head.astro'
 import Header from '@/components/Header.astro'
 import { SITE } from '@/consts'
 import Analytics from '@vercel/analytics/astro'
+import { ViewTransitions } from 'astro:transitions'
 ---
 
 <!doctype html>
 <html class="bg-background text-foreground" lang={SITE.locale}>
   <Head>
     <slot name="head" />
+    <ViewTransitions />
   </Head>
   <body class="overflow-x-hidden">
     <FloatingElements />
@@ -32,11 +34,5 @@ import Analytics from '@vercel/analytics/astro'
       <Footer />
     </div>
     <Analytics />
-    
-    <!-- Enhanced Animation Scripts -->
-    <script>
-      import '@/lib/page-load-animations.ts';
-      import '@/lib/page-transitions.ts';
-    </script>
   </body>
 </html>

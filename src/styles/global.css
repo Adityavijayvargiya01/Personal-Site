@@ -127,6 +127,49 @@ main img {
   animation: fadeOut 0.6s ease-in forwards;
 }
 
+/* Themed Image System */
+.themed-image {
+  transition: filter 0.6s ease-in-out, opacity 0.3s ease-in-out;
+  filter: saturate(1) brightness(1) contrast(1);
+}
+
+/* Light mode - no changes needed as default values are applied */
+:root .themed-image {
+  filter: saturate(1) brightness(1) contrast(1);
+}
+
+/* Dark mode - desaturated and dimmed */
+[data-theme="dark"] .themed-image {
+  filter: saturate(0) brightness(0.2) contrast(0.9);
+}
+
+/* Dimming effect during theme transitions */
+.theme-transitioning .themed-image {
+  opacity: 0.6;
+  transition: filter 0.6s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+/* Hover effects for blog cards in light mode */
+.themed-image:hover {
+  filter: saturate(1) brightness(1) contrast(1);
+}
+
+/* Hover effects for blog cards in dark mode */
+[data-theme="dark"] .themed-image:hover {
+  filter: saturate(0.7) brightness(0.8) contrast(0.9);
+}
+
+/* Accessibility - respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .themed-image {
+    transition: filter 0.1s ease-in-out;
+  }
+  
+  .theme-transitioning .themed-image {
+    transition: filter 0.1s ease-in-out;
+  }
+}
+
 /* Removed directional/transform-based utilities to favor opacity-only */
 
 /* Stagger Animation Delays */
@@ -247,6 +290,15 @@ html::view-transition-old {
 
 html::view-transition-new {
   animation: fadeIn 1.2s ease-out forwards;
+}
+
+/* Blog content transitions - ensure entire content fades as one unit */
+::view-transition-old(blog-content) {
+  animation: fadeOut 0.8s ease-in-out forwards;
+}
+
+::view-transition-new(blog-content) {
+  animation: fadeIn 0.8s ease-in-out forwards;
 }
 
 /* Accessibility - Respect reduced motion preference */

@@ -28,6 +28,7 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
   <Link
     href={`/${entry.collection}/${entry.id}`}
     class="flex flex-col gap-4 sm:flex-row !transform-none hover:!scale-100"
+    transition:name={`blog-content-${entry.id}`}
   >
     {
       entry.data.image && (
@@ -37,9 +38,8 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
             alt={entry.data.title}
             width={1200}
             height={630}
-            class="object-cover rounded-lg w-full h-auto"
+            class="object-cover rounded-lg w-full h-auto themed-image"
             quality="max"
-            transition:name=`hero-${entry.id}`
           />
         </div>
       )

@@ -45,9 +45,10 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
       )
     }
 
-    <div class="grow">
+    <div class="flex-1">
       <h3 class="mb-1 text-lg font-medium transition-colors duration-300 group-hover:text-primary">{entry.data.title}</h3>
-      <p class="text-muted-foreground mb-2 text-sm transition-colors duration-300 group-hover:text-foreground/80">{entry.data.description}</p>      <div
+      <p class="text-muted-foreground mb-2 text-sm transition-colors duration-300 group-hover:text-foreground/80">{entry.data.description}</p>
+      <div
         class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"
       >
         <span>{formattedDate}</span>

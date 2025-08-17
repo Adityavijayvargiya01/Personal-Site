@@ -101,7 +101,7 @@ main img {
   @apply rounded-lg;
 }
 
-/* Enhanced Animation System */
+/* Enhanced Animation System - Opacity Based */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -111,132 +111,270 @@ main img {
   }
 }
 
-/* Animation Utility Classes */
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
-}
-
 @keyframes fadeOut {
-  from { opacity: 1; }
+  from { 
+    opacity: 1; 
+  }
   to {
     opacity: 0;
   }
 }
 
+@keyframes fadeInSoft {
+  0% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInSharp {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulseSoft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  75% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(var(--primary), 0.3);
+    opacity: 0.9;
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(var(--primary), 0.6);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 0.3;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+/* Animation Utility Classes */
+.animate-fade-in {
+  animation: fadeIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
 .animate-fade-out {
-  animation: fadeOut 0.6s ease-in forwards;
+  animation: fadeOut 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-/* Themed Image System */
-.themed-image {
-  transition: filter 0.6s ease-in-out, opacity 0.3s ease-in-out;
-  filter: saturate(1) brightness(1) contrast(1);
+.animate-fade-in-soft {
+  animation: fadeInSoft 0.8s cubic-bezier(0.39, 0.575, 0.565, 1) forwards;
 }
 
-/* Light mode - no changes needed as default values are applied */
-:root .themed-image {
-  filter: saturate(1) brightness(1) contrast(1);
+.animate-fade-in-sharp {
+  animation: fadeInSharp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-/* Dark mode - desaturated and dimmed */
-[data-theme="dark"] .themed-image {
-  filter: saturate(0) brightness(0.2) contrast(0.9);
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Dimming effect during theme transitions */
-.theme-transitioning .themed-image {
-  opacity: 0.6;
-  transition: filter 0.6s ease-in-out, opacity 0.6s ease-in-out;
+.animate-pulse-soft {
+  animation: pulseSoft 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Hover effects for blog cards in light mode */
-.themed-image:hover {
-  filter: saturate(1) brightness(1) contrast(1);
+.animate-flicker {
+  animation: flicker 2.5s ease-in-out infinite;
 }
 
-/* Hover effects for blog cards in dark mode */
-[data-theme="dark"] .themed-image:hover {
-  filter: saturate(0.7) brightness(0.8) contrast(0.9);
+.animate-breathe {
+  animation: breathe 4s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite;
 }
 
-/* Accessibility - respect reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
-  .themed-image {
-    transition: filter 0.1s ease-in-out;
-  }
-  
-  .theme-transitioning .themed-image {
-    transition: filter 0.1s ease-in-out;
-  }
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
 }
 
-/* Removed directional/transform-based utilities to favor opacity-only */
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+}
+
+/* Scroll Animation Classes */
+[data-scroll] {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+[data-scroll].in-view {
+  opacity: 1;
+}
 
 /* Stagger Animation Delays */
 .stagger-1 {
-  animation-delay: 0.1s;
+  animation-delay: 0.05s;
 }
 
 .stagger-2 {
-  animation-delay: 0.2s;
+  animation-delay: 0.1s;
 }
 
 .stagger-3 {
-  animation-delay: 0.3s;
+  animation-delay: 0.15s;
 }
 
 .stagger-4 {
-  animation-delay: 0.4s;
+  animation-delay: 0.2s;
 }
 
 .stagger-5 {
-  animation-delay: 0.5s;
+  animation-delay: 0.25s;
 }
 
 .stagger-6 {
-  animation-delay: 0.6s;
+  animation-delay: 0.3s;
 }
 
-/* Enhanced Hover Effects */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.stagger-7 {
+  animation-delay: 0.35s;
 }
 
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+.stagger-8 {
+  animation-delay: 0.4s;
 }
 
-.hover-glow {
-  transition: box-shadow 0.3s ease;
+/* Duration Modifiers */
+.animation-fast {
+  animation-duration: 0.3s !important;
 }
 
-.hover-glow:hover {
-  box-shadow: 0 0 20px rgb(var(--primary) / 0.3);
+.animation-slow {
+  animation-duration: 1s !important;
 }
 
+.animation-slower {
+  animation-duration: 1.5s !important;
+}
+
+/* Enhanced Hover Effects - Opacity Based */
 .hover-fade {
-  transition: opacity 0.2s ease-out;
+  transition: opacity 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .hover-fade:hover {
-  opacity: 0.8;
+  opacity: 0.7;
 }
 
-.hover-scale {
-  transition: transform 0.3s ease;
+.hover-fade-soft {
+  transition: opacity 0.3s ease-out;
 }
 
-.hover-scale:hover {
-  transform: scale(1.05);
+.hover-fade-soft:hover {
+  opacity: 0.85;
 }
 
-.hover-rotate {
-  transition: transform 0.3s ease;
+.hover-fade-strong {
+  transition: opacity 0.2s ease-out;
 }
 
-.hover-rotate:hover {
-  transform: rotate(2deg);
+.hover-fade-strong:hover {
+  opacity: 0.5;
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease, opacity 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 25px rgba(var(--primary), 0.3);
+  opacity: 0.95;
+}
+
+.hover-shadow {
+  transition: box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.hover-shadow:hover {
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.2);
+}
+
+.hover-highlight {
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.hover-highlight:hover {
+  background-color: rgba(var(--primary), 0.05);
+  opacity: 0.9;
+}
+
+.hover-dim {
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.hover-dim:hover {
+  filter: brightness(0.9);
+  opacity: 0.95;
+}
+
+.hover-brighten {
+  transition: filter 0.3s ease;
+}
+
+.hover-brighten:hover {
+  filter: brightness(1.1);
 }
 
 /* Smooth Transitions */
@@ -248,31 +386,49 @@ main img {
   transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
+.transition-spring {
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.transition-elastic {
+  transition: all 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+
 /* Loading Animation */
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
+@keyframes loading-fade {
+  0%, 100% {
+    opacity: 0.3;
   }
-  100% {
-    background-position: 200% 0;
+  50% {
+    opacity: 1;
   }
 }
-.loading-shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
+
+@keyframes loading-pulse {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.2;
+  }
+}
+
+.loading-fade {
+  animation: loading-fade 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.loading-pulse {
+  animation: loading-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Page Load Animations */
 .page-animate {
   opacity: 0;
   will-change: opacity;
-  animation: pageLoadFadeIn 0.3s ease-out forwards;
+  animation: pageLoadFadeIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes pageLoadFadeIn {
@@ -282,6 +438,32 @@ main img {
   to {
     opacity: 1;
   }
+}
+
+/* Text Effects */
+.text-fade {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.text-highlight {
+  position: relative;
+}
+
+.text-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.text-highlight:hover::after {
+  opacity: 1;
 }
 
 html::view-transition-old {
@@ -301,6 +483,13 @@ html::view-transition-new {
   animation: fadeIn 0.8s ease-in-out forwards;
 }
 
+/* Smooth Scroll Behavior */
+@supports (scroll-behavior: smooth) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* Accessibility - Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -309,10 +498,13 @@ html::view-transition-new {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
   
-  .page-animate {
+  .page-animate,
+  [data-scroll] {
     opacity: 1;
     animation: none;
+    transform: none;
   }
 }

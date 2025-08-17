@@ -14,7 +14,9 @@ const { project } = Astro.props
 ---
 
 <div
-  class="project-card group hover:bg-secondary/50 rounded-xl border p-4 hover-lift transition-smooth"
+  class="project-card group hover:bg-secondary/50 rounded-xl border p-4 hover-shadow transition-smooth"
+  data-scroll
+  data-scroll-animation="fade-in"
 >
   <Link
     href={project.data.link}

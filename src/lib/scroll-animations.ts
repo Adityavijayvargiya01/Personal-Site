@@ -81,7 +81,7 @@ class ScrollAnimationObserver {
     const elements = document.querySelectorAll(selector)
     
     // Apply stagger effect to elements with data-stagger
-    elements.forEach((element, index) => {
+    elements.forEach((element) => {
       const staggerGroup = element.getAttribute('data-stagger-group')
       if (staggerGroup) {
         const groupIndex = this.getGroupIndex(element, staggerGroup)
@@ -145,7 +145,6 @@ class ParallaxController {
 
 // Initialize on DOMContentLoaded
 let scrollObserver: ScrollAnimationObserver | null = null
-let parallaxController: ParallaxController | null = null
 
 function initializeAnimations() {
   // Initialize scroll animations
@@ -159,7 +158,7 @@ function initializeAnimations() {
   
   // Initialize parallax if elements exist
   if (document.querySelectorAll('.parallax').length > 0) {
-    parallaxController = new ParallaxController()
+    new ParallaxController()
   }
   
   // Add page load animations with stagger

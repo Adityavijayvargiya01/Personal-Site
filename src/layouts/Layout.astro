@@ -8,7 +8,7 @@ import Head from '@/components/Head.astro'
 import Header from '@/components/Header.astro'
 import { SITE } from '@/consts'
 import Analytics from '@vercel/analytics/astro'
-import { ViewTransitions } from 'astro:transitions'
+import { ClientRouter } from 'astro:transitions'
 ---
 
 <!doctype html>
@@ -16,7 +16,7 @@ import { ViewTransitions } from 'astro:transitions'
   <Head>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <slot name="head" />
-    <ViewTransitions />
+    <ClientRouter />
   </Head>
   <body class="overflow-x-hidden">
     <FloatingElements />

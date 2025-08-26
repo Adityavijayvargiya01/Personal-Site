@@ -188,11 +188,11 @@ main img {
 
 @keyframes glow {
   0%, 100% {
-    box-shadow: 0 0 5px rgba(var(--primary), 0.3);
+    box-shadow: 0 0 5px color-mix(in oklab, var(--primary) 30%, transparent);
     opacity: 0.9;
   }
   50% {
-    box-shadow: 0 0 20px rgba(var(--primary), 0.6);
+    box-shadow: 0 0 20px color-mix(in oklab, var(--primary) 60%, transparent);
     opacity: 1;
   }
 }
@@ -339,7 +339,7 @@ main img {
 }
 
 .hover-glow:hover {
-  box-shadow: 0 0 25px rgba(var(--primary), 0.3);
+  box-shadow: 0 0 25px color-mix(in oklab, var(--primary) 30%, transparent);
   opacity: 0.95;
 }
 
@@ -356,7 +356,7 @@ main img {
 }
 
 .hover-highlight:hover {
-  background-color: rgba(var(--primary), 0.05);
+  background-color: color-mix(in oklab, var(--primary) 5%, transparent);
   opacity: 0.9;
 }
 

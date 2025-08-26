@@ -2,10 +2,13 @@
 
 @layer components {
   .prose {
-    @apply text-foreground text-base leading-7 [&>link[rel="stylesheet"]+*]:mt-0!;
+    @apply text-foreground text-base leading-7 [&>link[rel="stylesheet"]+*]:mt-0! mx-auto;
+    max-width: 65ch;
 
     p {
-      @apply text-foreground/80 my-5 not-first:mt-5;
+      @apply text-foreground/80 my-5 not-first:mt-5 text-pretty;
+      font-size: 1rem;
+      line-height: 1.75;
     }
 
     /* Don't use an <h1> in your posts, one is already generated in blog/[...id].astro */

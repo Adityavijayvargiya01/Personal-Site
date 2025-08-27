@@ -20,6 +20,16 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   site: 'https://adityavijayvargiya.live',
+  image: {
+    domains: ['adityavijayvargiya.live'],
+    remotePatterns: [{ protocol: 'https' }],
+    service: {
+      entrypoint: 'astro/assets/services/sharp',
+      config: {
+        limitInputPixels: 268402689,
+      }
+    }
+  },
   integrations: [
     expressiveCode({
       themes: ['github-light', 'github-dark'],
@@ -71,6 +81,17 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'react-vendor': ['react', 'react-dom'],
+            'ui-components': ['@/components/ui/badge', '@/components/ui/button', '@/components/ui/separator'],
+            'astro-icons': ['astro-icon'],
+          }
+        }
+      }
+    }
   },
   server: {
     port: 1234,

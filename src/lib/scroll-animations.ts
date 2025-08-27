@@ -12,22 +12,25 @@ class ScrollAnimationObserver {
   
   constructor(options: ScrollAnimationOptions = {}) {
     const {
-      threshold = 0.1,
-      rootMargin = '0px 0px -50px 0px',
+      threshold = 0.05,
+      rootMargin = '0px 0px -20px 0px',
       once = true
     } = options
     
     this.observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          this.animateElement(entry.target)
-          
-          if (once && this.animatedElements.has(entry.target)) {
-            this.observer.unobserve(entry.target)
+      // Use requestAnimationFrame to batch DOM updates
+      requestAnimationFrame(() => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.animateElement(entry.target)
+            
+            if (once) {
+              this.observer.unobserve(entry.target)
+            }
+          } else if (!once) {
+            this.resetElement(entry.target)
           }
-        } else if (!once) {
-          this.resetElement(entry.target)
-        }
+        })
       })
     }, { threshold, rootMargin })
   }
@@ -149,24 +152,27 @@ let scrollObserver: ScrollAnimationObserver | null = null
 function initializeAnimations() {
   // Initialize scroll animations
   scrollObserver = new ScrollAnimationObserver({
-    threshold: 0.05,
-    rootMargin: '0px 0px -10% 0px',
+    threshold: 0.02,
+    rootMargin: '0px 0px -5% 0px',
     once: true
   })
   
   scrollObserver.observeAll()
   
-  // Initialize parallax if elements exist
-  if (document.querySelectorAll('.parallax').length > 0) {
+  // Initialize parallax only if user prefers motion and elements exist
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (!prefersReducedMotion && document.querySelectorAll('.parallax').length > 0) {
     new ParallaxController()
   }
   
-  // Add page load animations with stagger
-  const pageAnimateElements = document.querySelectorAll('.page-animate')
-  pageAnimateElements.forEach((element, index) => {
-    const customIndex = element.getAttribute('data-stagger-index')
-    const staggerIndex = customIndex ? parseInt(customIndex) : index
-    element.classList.add(`stagger-${Math.min(staggerIndex + 1, 8)}`)
+  // Add page load animations with stagger - batch DOM updates
+  requestAnimationFrame(() => {
+    const pageAnimateElements = document.querySelectorAll('.page-animate')
+    pageAnimateElements.forEach((element, index) => {
+      const customIndex = element.getAttribute('data-stagger-index')
+      const staggerIndex = customIndex ? parseInt(customIndex) : index
+      element.classList.add(`stagger-${Math.min(staggerIndex + 1, 8)}`)
+    })
   })
 }
 

@@ -1,0 +1,31 @@
+---
+// Service Worker for advanced caching
+---
+
+<script is:inline>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js', {
+        scope: '/',
+      })
+      
+      console.log('ServiceWorker registered successfully:', registration.scope)
+      
+      // Update service worker when new version is available
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing
+        if (newWorker) {
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('New service worker is available')
+            }
+          })
+        }
+      })
+    } catch (error) {
+      console.log('ServiceWorker registration failed:', error)
+    }
+  })
+}
+</script>

@@ -6,6 +6,8 @@ import FloatingElements from '@/components/FloatingElements.astro'
 import Footer from '@/components/Footer.astro'
 import Head from '@/components/Head.astro'
 import Header from '@/components/Header.astro'
+import PerformanceOptimizer from '@/components/PerformanceOptimizer.astro'
+import ServiceWorker from '@/components/ServiceWorker.astro'
 import { SITE } from '@/consts'
 import Analytics from '@vercel/analytics/astro'
 import { ClientRouter } from 'astro:transitions'
@@ -15,6 +17,8 @@ import { ClientRouter } from 'astro:transitions'
 <html class="bg-background text-foreground" lang={SITE.locale}>
   <Head>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <PerformanceOptimizer />
     <slot name="head" />
     <ClientRouter />
   </Head>
@@ -35,6 +39,7 @@ import { ClientRouter } from 'astro:transitions'
       <Footer />
     </div>
     <Analytics />
+    <ServiceWorker />
     <script>
       import '@/lib/scroll-animations'
     </script>

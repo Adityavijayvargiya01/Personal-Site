@@ -14,10 +14,16 @@ const projects = await getAllProjects()
   <section class="page-animate" data-stagger-index="0" transition:name="main">
     <div>
       <div class="min-w-full">
-        <h1 class="mb-6 text-3xl font-bold">Projects</h1>
-        <div class="flex flex-col gap-4">
+        <h1 class="mb-6 text-3xl font-bold page-animate" data-stagger-index="1">Projects</h1>
+        <div class="flex flex-col gap-6">
           {projects.map((project, index) => (
-            <div class="page-animate" data-stagger-index={index + 1}>
+            <div 
+              class="page-animate" 
+              data-stagger-index={index + 2}
+              data-scroll
+              data-scroll-animation="slide-up-soft"
+              data-scroll-delay={index * 100}
+            >
               <ProjectCard project={project} />
             </div>
           ))}

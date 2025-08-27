@@ -36,10 +36,16 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
           <Image
             src={entry.data.image}
             alt={entry.data.title}
-            width={1200}
-            height={630}
+            width={400}
+            height={210}
             class="object-cover rounded-lg w-full h-auto themed-image"
-            quality="max"
+            quality={85}
+            loading="lazy"
+            decoding="async"
+            format="webp"
+            fallbackFormat="jpg"
+            widths={[200, 400, 600]}
+            sizes="(max-width: 640px) 100vw, 400px"
           />
         </div>
       )

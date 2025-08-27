@@ -14,9 +14,9 @@ const { project } = Astro.props
 ---
 
 <div
-  class="project-card group hover:bg-secondary/50 rounded-xl border p-4 hover-shadow transition-smooth"
+  class="project-card group hover:bg-secondary/50 rounded-xl border p-4 hover-lift hover-scale-soft transition-smooth"
   data-scroll
-  data-scroll-animation="fade-in"
+  data-scroll-animation="slide-up-soft"
 >
   <Link
     href={project.data.link}
@@ -28,9 +28,16 @@ const { project } = Astro.props
           <Image
             src={project.data.image}
             alt={project.data.name}
-            width={1200}
-            height={630}
-            class="w-full object-cover rounded-xl"
+            width={400}
+            height={210}
+            class="w-full object-cover rounded-xl transition-smooth group-hover:scale-105"
+            quality={85}
+            loading="lazy"
+            decoding="async"
+            format="webp"
+            fallbackFormat="jpg"
+            widths={[200, 400, 600]}
+            sizes="(max-width: 640px) 100vw, 400px"
           />
         </div>
       )

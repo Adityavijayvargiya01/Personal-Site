@@ -43,7 +43,6 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
             loading="lazy"
             decoding="async"
             format="webp"
-            fallbackFormat="jpg"
             widths={[200, 400, 600]}
             sizes="(max-width: 640px) 100vw, 400px"
           />

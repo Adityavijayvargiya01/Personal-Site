@@ -105,7 +105,6 @@ const postReadingTime = await getPostReadingTime(currentPostId)
           loading="eager"
           decoding="async"
           format="webp"
-          fallbackFormat="jpg"
           widths={[600, 900, 1200, 1600]}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 900px, 1200px"
           transition:name={`hero-${currentPostId}`}

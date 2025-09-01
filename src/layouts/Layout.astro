@@ -10,6 +10,7 @@ import PerformanceOptimizer from '@/components/PerformanceOptimizer.astro'
 import ServiceWorker from '@/components/ServiceWorker.astro'
 import { SITE } from '@/consts'
 import Analytics from '@vercel/analytics/astro'
+import SpeedInsights from '@vercel/speed-insights/astro'
 import { ClientRouter } from 'astro:transitions'
 ---
 
@@ -39,6 +40,7 @@ import { ClientRouter } from 'astro:transitions'
       <Footer />
     </div>
     <Analytics />
+    <SpeedInsights />
     <ServiceWorker />
     <script>
       import '@/lib/scroll-animations'

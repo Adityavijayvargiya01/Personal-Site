@@ -19,6 +19,7 @@ import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
+  output: 'static',
   site: 'https://adityavijayvargiya.live',
   image: {
     domains: ['adityavijayvargiya.live'],

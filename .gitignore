@@ -13,3 +13,6 @@ pnpm-debug.log*
 .windsurf/
 teaser.pptx
 ~$teaser.pptx
+.claude/
+GEMINI.md
+QWEN.md

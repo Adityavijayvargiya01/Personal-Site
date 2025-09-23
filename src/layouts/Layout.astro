@@ -25,7 +25,7 @@ import { ClientRouter } from 'astro:transitions'
   </Head>
   <body class="overflow-x-hidden">
     <FloatingElements />
-    <div class="flex h-fit min-h-screen flex-col gap-y-6 font-sans">
+    <div class="flex h-fit min-h-screen flex-col gap-y-4 sm:gap-y-6 font-sans">
       <div
         class="bg-background/50 sticky top-0 z-50 divide-y backdrop-blur-sm xl:divide-none"
       >
@@ -34,7 +34,7 @@ import { ClientRouter } from 'astro:transitions'
         <slot name="table-of-contents" />
       </div>
       <main class="grow" transition:animate="fade">
-        <div class="mx-auto flex max-w-3xl grow flex-col gap-y-6 px-6 sm:px-4">
+        <div class="mx-auto flex max-w-3xl grow flex-col gap-y-4 px-3 sm:px-6 md:px-4">
           <slot />
         </div>      </main>
       <Footer />

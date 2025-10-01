@@ -7,8 +7,6 @@ interface TypingEffectOptions {
 
 class TypingEffect {
   private element: HTMLElement
-  private text: string
-  private currentIndex: number = 0
   private speed: number
   private delay: number
   private showCursor: boolean
@@ -18,7 +16,6 @@ class TypingEffect {
 
   constructor(element: HTMLElement, options: TypingEffectOptions = {}) {
     this.element = element
-    this.text = element.textContent || ''
     this.speed = options.speed || 30
     this.delay = options.delay || 0
     this.showCursor = options.showCursor || false

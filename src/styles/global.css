@@ -54,7 +54,7 @@
   --ring: oklch(0.708 0 0);
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --primary: oklch(0.922 0 0);
@@ -78,20 +78,20 @@
   ::file-selector-button {
     @apply border-border outline-ring/50 tracking-tight;
   }
-  
+
   /* Apply Rubik medium weight to all bold text elements */
-  b, 
+  b,
   strong,
   .font-medium,
   .font-semibold,
   .font-bold,
   .font-extrabold,
   .font-black,
-  [style*="font-weight: 500"],
-  [style*="font-weight: 600"],
-  [style*="font-weight: 700"],
-  [style*="font-weight: 800"],
-  [style*="font-weight: 900"] {
+  [style*='font-weight: 500'],
+  [style*='font-weight: 600'],
+  [style*='font-weight: 700'],
+  [style*='font-weight: 800'],
+  [style*='font-weight: 900'] {
     font-family: var(--font-heading);
     font-weight: 500 !important;
   }
@@ -112,8 +112,8 @@ main img {
 }
 
 @keyframes fadeOut {
-  from { 
-    opacity: 1; 
+  from {
+    opacity: 1;
   }
   to {
     opacity: 0;
@@ -226,7 +226,8 @@ main img {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -235,7 +236,8 @@ main img {
 }
 
 @keyframes pulseSoft {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -244,7 +246,8 @@ main img {
 }
 
 @keyframes flicker {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   25% {
@@ -259,7 +262,8 @@ main img {
 }
 
 @keyframes breathe {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.4;
   }
   50% {
@@ -268,7 +272,8 @@ main img {
 }
 
 @keyframes glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 5px color-mix(in oklab, var(--primary) 30%, transparent);
     opacity: 0.9;
   }
@@ -444,7 +449,9 @@ main img {
 }
 
 .hover-glow {
-  transition: box-shadow 0.3s ease, opacity 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .hover-glow:hover {
@@ -461,7 +468,9 @@ main img {
 }
 
 .hover-highlight {
-  transition: background-color 0.3s ease, opacity 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .hover-highlight:hover {
@@ -470,7 +479,9 @@ main img {
 }
 
 .hover-dim {
-  transition: filter 0.3s ease, opacity 0.3s ease;
+  transition:
+    filter 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .hover-dim:hover {
@@ -487,7 +498,9 @@ main img {
 }
 
 .hover-lift {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s ease;
 }
 
 .hover-lift:hover {
@@ -530,7 +543,8 @@ main img {
 
 /* Loading Animation */
 @keyframes loading-fade {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
   }
   50% {
@@ -539,7 +553,8 @@ main img {
 }
 
 @keyframes loading-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.2;
   }
   20% {
@@ -634,7 +649,7 @@ html::view-transition-new {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   .page-animate,
   [data-scroll] {
     opacity: 1;

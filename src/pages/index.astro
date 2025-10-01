@@ -13,39 +13,51 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
 <Layout>
   <PageHead slot="head" title="Home" />
   <section
-    class="page-animate animate-fade-in-soft min-h-[calc(89vh)] flex items-center"
+    class="page-animate animate-fade-in-soft flex min-h-[calc(89vh)] items-center"
     data-stagger-index="0"
     transition:name="main"
   >
     <div class="transition-smooth hover-shadow">
       <div class="flex flex-col space-y-1.5 p-6">
         <h3 class="text-3xl leading-none font-medium">Aditya Vijayvargiya</h3>
-        <p class="text-muted-foreground text-lg">Software Developer Intern @Philips</p>
+        <span class="text-muted-foreground text-lg">
+            Software Developer Intern <span class="text-blue-500">@Philips</span>
+        </p>
       </div>
       <div class="p-6 pt-0">
-        <p class="text-muted-foreground mb-5 text-base">
+        <p
+          class="text-muted-foreground typewriter mb-5 text-base"
+          data-type-seq="1"
+          data-type-speed="20"
+        >
           Hello there, I'm a software developer from India. I'm currently
           pursuing a B.Tech in Computer Science. In my journey of software
           development, I have developed a strong foundation in programming and
           software development, with particular experience in <Link
             href="https://nextjs.org"
             class="text-foreground"
-            external
-            underline>Next.js</Link
+            external>Next.js</Link
           > and <Link
             href="https://react.dev"
             class="text-foreground"
-            external
-            underline>React</Link
+            external>React</Link
           >.
         </p>
-        <p class="text-muted-foreground mb-5 text-base">
+        <p
+          class="text-muted-foreground typewriter mb-5 text-base"
+          data-type-seq="2"
+          data-type-speed="20"
+        >
           One of my favorite hobbies continues to be tinkering with software
           configurations, whether it's customizing Neovim setups, tweaking UI
           elements that don't quite feel right, or hunting for the perfect
           open-source alternative.
         </p>
-        <p class="text-muted-foreground text-base">
+        <p
+          class="text-muted-foreground typewriter text-base"
+          data-type-seq="3"
+          data-type-speed="20"
+        >
           I also love staying updated with the latest tech trends and sharing
           insights with others through blogs and Twitter posts.
         </p>
@@ -87,4 +99,109 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
       }
     </div>
   </section>
+  <script is:inline>
+    ;(function () {
+      const paras = Array.from(document.querySelectorAll('p.typewriter')).sort(
+        (a, b) => Number(a.dataset.typeSeq) - Number(b.dataset.typeSeq),
+      )
+
+      if (!paras.length) return
+
+      const original = paras.map((p) => p.innerHTML.trim())
+
+      // Reserve heights to prevent layout shift before clearing content
+      paras.forEach((p) => {
+        const h = p.getBoundingClientRect().height
+        if (h) {
+          p.style.minHeight = h + 'px'
+          p.dataset.twReservedHeight = String(h)
+        }
+        // Ensure consistent block flow (prevents inline quirks)
+        p.style.display = 'block'
+      })
+      // Clear initial content (after reserving space)
+      paras.forEach((p) => {
+        p.innerHTML = ''
+      })
+
+      // Global speed multiplier (lower = faster). Can be overridden by:
+      // <html data-type-speed-multiplier="0.45">
+      const SPEED_MULTIPLIER = parseFloat(
+        document.documentElement.dataset.typeSpeedMultiplier || '0.5',
+      )
+
+      function typeParagraph(idx) {
+        if (idx >= paras.length) return
+        const el = paras[idx]
+        const html = original[idx]
+        const baseSpeedRaw = Number(el.dataset.typeSpeed) || 30
+        // Apply global multiplier & clamp to a sane minimum
+        const baseSpeed = Math.max(2, baseSpeedRaw * SPEED_MULTIPLIER)
+
+        let i = 0
+        let buffer = ''
+
+        function step() {
+          if (i >= html.length) {
+            // Finalize paragraph (remove caret) and move to next
+            el.innerHTML = buffer
+            setTimeout(() => typeParagraph(idx + 1), 250)
+            return
+          }
+
+          const ch = html[i]
+          // If we hit a tag, append the whole tag at once
+          if (ch === '<') {
+            const close = html.indexOf('>', i)
+            if (close !== -1) {
+              buffer += html.slice(i, close + 1)
+              i = close + 1
+            } else {
+              buffer += ch
+              i++
+            }
+          } else {
+            buffer += ch
+            i++
+          }
+
+          el.innerHTML = buffer + '<span class="tw-caret">|</span>'
+
+          // Slight randomness + faster spaces for a more organic feel
+          const rawDelay =
+            (ch === ' ' ? baseSpeed * 0.45 : baseSpeed) *
+            (0.85 + Math.random() * 0.25)
+          const delay = Math.max(1, rawDelay)
+          setTimeout(step, delay)
+        }
+
+        step()
+      }
+
+      // Inject caret styles once
+      const styleId = 'tw-caret-style'
+      if (!document.getElementById(styleId)) {
+        const style = document.createElement('style')
+        style.id = styleId
+        style.textContent = `
+          .tw-caret {
+            display:inline-block;
+            animation: twBlink 1s steps(2, start) infinite;
+          }
+          @keyframes twBlink {
+            0%,50% { opacity: 1; }
+            50.01%,100% { opacity: 0; }
+          }
+          p.typewriter { position: relative; }
+        `
+        document.head.appendChild(style)
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => typeParagraph(0))
+      } else {
+        typeParagraph(0)
+      }
+    })()
+  </script>
 </Layout>

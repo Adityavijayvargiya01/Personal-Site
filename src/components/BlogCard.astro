@@ -23,11 +23,11 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 ---
 
 <div
-  class="hover:bg-secondary/50 rounded-xl border p-4 transition-colors duration-300 group"
+  class="rounded-xl border p-4 group"
 >
   <Link
     href={`/${entry.collection}/${entry.id}`}
-    class="flex flex-col gap-4 sm:flex-row !transform-none hover:!scale-100"
+    class="flex flex-col gap-4 sm:flex-row !transform-none"
     transition:name={`blog-content-${entry.id}`}
   >
     {
@@ -51,8 +51,8 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
     }
 
     <div class="flex-1">
-      <h3 class="mb-1 text-lg font-medium transition-colors duration-300 group-hover:text-primary">{entry.data.title}</h3>
-      <p class="text-muted-foreground mb-2 text-sm transition-colors duration-300 group-hover:text-foreground/80">{entry.data.description}</p>
+      <h3 class="mb-1 text-lg font-medium">{entry.data.title}</h3>
+      <p class="text-muted-foreground mb-2 text-sm">{entry.data.description}</p>
       <div
         class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"
       >

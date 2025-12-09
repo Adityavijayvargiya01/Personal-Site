@@ -1,0 +1,39 @@
+---
+import BlogCard from '@/components/BlogCard.astro'
+import Breadcrumbs from '@/components/Breadcrumbs.astro'
+import PageHead from '@/components/PageHead.astro'
+import Layout from '@/layouts/Layout.astro'
+import { getAllPosts, groupPostsByYear } from '@/lib/data-utils'
+
+const allPosts = await getAllPosts()
+const postsByYear = groupPostsByYear(allPosts)
+const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
+---
+
+<Layout>
+  <PageHead slot="head" title="Posts" />
+  <Breadcrumbs items={[{ label: 'Posts', icon: 'ph:article-duotone' }]} />
+  <section>
+    <div>
+      <div class="min-w-full">
+        <h1 class="mb-6 text-3xl font-bold">Posts</h1>
+        <div class="flex flex-col gap-y-8">
+          {
+            years.map((year) => (
+              <section class="flex flex-col gap-y-4">
+                <div class="font-medium">{year}</div>
+                <ul class="flex flex-col gap-4">
+                  {postsByYear[year].map((post) => (
+                    <li>
+                      <BlogCard entry={post} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,88 @@
+---
+import Link from '@/components/Link.astro'
+import { NAV_LINKS } from '@/consts'
+import { Icon } from 'astro-icon/components'
+---
+
+<aside
+  class="hidden xl:flex fixed left-18 top-1/2 -translate-y-1/2 w-auto px-4 py-5 flex-col items-start justify-center rounded-xl border border-border/40 bg-background/80 backdrop-blur-sm shadow-sm z-50"
+  transition:persist
+>
+  <nav class="flex flex-col items-start gap-4">
+    <!-- Home -->
+    <Link href="/" class="flex items-center gap-3 text-foreground/60 hover:text-foreground transition-colors">
+      <Icon name="ph:user-circle-duotone" class="size-5" />
+      <span class="text-sm font-medium">Home</span>
+    </Link>
+
+    <!-- Nav links -->
+    {
+      NAV_LINKS.map((item) => (
+        <Link
+          href={item.href}
+          class="flex items-center gap-3 text-foreground/60 hover:text-foreground transition-colors"
+        >
+          <Icon
+            name={item.href === '/posts' ? 'ph:article-duotone' : item.href === '/projects' ? 'ph:folder-duotone' : 'ph:briefcase-duotone'}
+            class="size-5"
+          />
+          <span class="text-sm font-medium capitalize">{item.label}</span>
+        </Link>
+      ))
+    }
+
+    <!-- Theme toggle -->
+    <button
+      id="sidebar-theme-toggle"
+      class="flex items-center gap-3 text-foreground/60 hover:text-foreground transition-colors cursor-pointer"
+    >
+      <span class="relative size-5">
+        <Icon name="ph:sun-duotone" class="size-5 absolute inset-0 scale-100 rotate-0 transition-transform dark:scale-0 dark:-rotate-90" />
+        <Icon name="ph:moon-duotone" class="size-5 absolute inset-0 scale-0 rotate-90 transition-transform dark:scale-100 dark:rotate-0" />
+      </span>
+      <span class="text-sm font-medium">Theme</span>
+    </button>
+  </nav>
+</aside>
+
+<script>
+  function initSidebarThemeToggle() {
+    const toggle = document.getElementById('sidebar-theme-toggle')
+    if (toggle) {
+      toggle.addEventListener('click', () => {
+        const element = document.documentElement
+        const currentTheme = element.getAttribute('data-theme')
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
+
+        element.classList.add('theme-transitioning')
+        element.classList.add('animate-fade-out')
+        element.classList.add('[&_*]:transition-none')
+
+        setTimeout(() => {
+          element.setAttribute('data-theme', newTheme)
+          element.classList.remove('scheme-dark', 'scheme-light')
+          element.classList.add(newTheme === 'dark' ? 'scheme-dark' : 'scheme-light')
+
+          window.getComputedStyle(element).getPropertyValue('opacity')
+
+          element.classList.remove('animate-fade-out')
+          element.classList.add('animate-fade-in')
+
+          requestAnimationFrame(() => {
+            element.classList.remove('[&_*]:transition-none')
+          })
+
+          setTimeout(() => {
+            element.classList.remove('animate-fade-in')
+            element.classList.remove('theme-transitioning')
+          }, 600)
+        }, 300)
+
+        localStorage.setItem('theme', newTheme)
+      })
+    }
+  }
+
+  initSidebarThemeToggle()
+  document.addEventListener('astro:after-swap', initSidebarThemeToggle)
+</script>

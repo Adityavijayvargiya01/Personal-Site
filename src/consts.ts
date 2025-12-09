@@ -4,7 +4,7 @@ export const SITE: Site = {
   title: 'Aditya Vijayvargiya',
   description:
     'Personal Blog Site',
-  href: 'https://adityavijayvargiya.live',
+  href: 'https://adityavijayvargiya.me',
   author: 'Aditya',
   locale: 'en-US',
   featuredPostCount: 2,

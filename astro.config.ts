@@ -20,9 +20,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   output: 'static',
-  site: 'https://adityavijayvargiya.live',
+  site: 'https://adityavijayvargiya.me',
   image: {
-    domains: ['adityavijayvargiya.live'],
+    domains: ['adityavijayvargiya.me'],
     remotePatterns: [{ protocol: 'https' }],
     service: {
       entrypoint: 'astro/assets/services/sharp',

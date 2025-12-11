@@ -12,7 +12,10 @@ import Favicons from './Favicons.astro'
   />
   <meta name="generator" content={Astro.generator} />
 
-  <meta property="og:image" content={new URL("static/pagebanner2.png", Astro.site).href} />
+  <meta
+    property="og:image"
+    content={new URL('static/pagebanner2.png', Astro.site).href}
+  />
 
   <meta name="HandheldFriendly" content="True" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -41,13 +44,6 @@ import Favicons from './Favicons.astro'
     type="application/rss+xml"
     title={SITE.title}
     href={new URL('rss.xml', Astro.site)}
-  />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" 
-    rel="stylesheet" 
   />
 
   <Favicons />

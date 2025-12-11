@@ -1,14 +1,14 @@
 ---
+import '@/styles/fonts.css'
 import '@/styles/global.css'
 import '@/styles/typography.css'
 
-
 import Head from '@/components/Head.astro'
 import Header from '@/components/Header.astro'
-import Sidebar from '@/components/Sidebar.astro'
-import SocialSidebar from '@/components/SocialSidebar.astro'
 import PerformanceOptimizer from '@/components/PerformanceOptimizer.astro'
 import ServiceWorker from '@/components/ServiceWorker.astro'
+import Sidebar from '@/components/Sidebar.astro'
+import SocialSidebar from '@/components/SocialSidebar.astro'
 import { SITE } from '@/consts'
 import Analytics from '@vercel/analytics/astro'
 import SpeedInsights from '@vercel/speed-insights/astro'
@@ -26,9 +26,9 @@ import SpeedInsights from '@vercel/speed-insights/astro'
     <!-- Desktop Sidebars -->
     <Sidebar />
     <SocialSidebar />
-    
+
     <!-- Main content wrapper with left margin on desktop for sidebar -->
-    <div class="flex h-fit min-h-screen flex-col gap-y-4 sm:gap-y-6 font-sans">
+    <div class="flex h-fit min-h-screen flex-col gap-y-4 font-sans sm:gap-y-6">
       <!-- Mobile/Tablet header -->
       <div
         class="bg-background/50 sticky top-0 z-50 divide-y backdrop-blur-sm xl:hidden"
@@ -38,12 +38,16 @@ import SpeedInsights from '@vercel/speed-insights/astro'
         <slot name="table-of-contents" />
       </div>
       <!-- Desktop subposts/toc (no header) -->
-      <div class="hidden xl:block bg-background/50 sticky top-0 z-40 divide-y backdrop-blur-sm">
+      <div
+        class="bg-background/50 sticky top-0 z-40 hidden divide-y backdrop-blur-sm xl:block"
+      >
         <slot name="subposts-navigation" />
         <slot name="table-of-contents" />
       </div>
       <main class="grow">
-        <div class="mx-auto flex max-w-3xl grow flex-col gap-y-4 px-3 sm:px-6 md:px-4">
+        <div
+          class="mx-auto flex max-w-3xl grow flex-col gap-y-4 px-3 sm:px-6 md:px-4"
+        >
           <slot />
         </div>
       </main>

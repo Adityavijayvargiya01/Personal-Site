@@ -12,6 +12,7 @@
   --font-mono:
     'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
+  --font-poppins: 'Poppins', sans-serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -102,7 +103,7 @@
 }
 
 main img {
-  @apply rounded-xl border border-border bg-background;
+  @apply border-border bg-background rounded-xl border;
 }
 
 /* Performance optimization for main content */

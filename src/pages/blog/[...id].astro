@@ -8,6 +8,7 @@ import TOCHeader from '@/components/TOCHeader.astro'
 import TOCSidebar from '@/components/TOCSidebar.astro'
 import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { FadeIn } from '@/components/ui/motion'
 import { Separator } from '@/components/ui/separator'
 import Layout from '@/layouts/Layout.astro'
 import {
@@ -59,13 +60,14 @@ const postReadingTime = await getPostReadingTime(currentPostId)
     )
   }
   {
-    headings?.length > 0 && (
+    false && headings?.length > 0 && (
       <TOCHeader slot="table-of-contents" headings={headings} />
     )
   }
 
-  <section
-    class="relative left-[calc(50%-50vw)] grid w-screen grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6 px-5 sm:px-6 md:px-8"
+  <FadeIn
+    client:load
+    className="relative left-[calc(50%-50vw)] grid w-screen grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6 px-5 sm:px-6 md:px-8"
   >
     <div class="col-start-2">
       <Breadcrumbs
@@ -93,14 +95,15 @@ const postReadingTime = await getPostReadingTime(currentPostId)
               ]),
         ]}
       />
-    </div>    {
+    </div>
+    {
       post.data.image && (
         <Image
           src={post.data.image}
           alt={post.data.title}
           width={1200}
           height={630}
-          class="col-span-full mx-auto w-full max-w-3xl object-cover rounded-lg themed-image"
+          class="themed-image col-span-full mx-auto w-full max-w-3xl rounded-lg object-cover"
           quality={90}
           loading="eager"
           decoding="async"
@@ -118,7 +121,8 @@ const postReadingTime = await getPostReadingTime(currentPostId)
           id="post-title"
         >
           {post.data.title}
-        </h1>        <div
+        </h1>
+        <div
           class="text-muted-foreground mb-4 flex flex-wrap items-center justify-center gap-2 text-sm"
         >
           <div class="flex items-center gap-2">
@@ -143,7 +147,8 @@ const postReadingTime = await getPostReadingTime(currentPostId)
 
         <div class="flex flex-wrap justify-center gap-2">
           {
-            post.data.tags && post.data.tags.length > 0 ? (              post.data.tags.map((tag) => (
+            post.data.tags && post.data.tags.length > 0 ? (
+              post.data.tags.map((tag) => (
                 <a
                   href={`/tags/${tag}`}
                   class={badgeVariants({ variant: 'secondary' })}
@@ -167,9 +172,9 @@ const postReadingTime = await getPostReadingTime(currentPostId)
       />
     </section>
 
-    {headings.length > 0 && <TOCSidebar headings={headings} />}
+    {false && headings.length > 0 && <TOCSidebar headings={headings} />}
 
-    <article class="prose col-start-2 max-w-none mx-auto px-1 sm:px-0">
+    <article class="prose col-start-2 mx-auto max-w-none px-1 sm:px-0">
       <Content />
     </article>
 
@@ -189,7 +194,7 @@ const postReadingTime = await getPostReadingTime(currentPostId)
       olderPost={navigation.older}
       parentPost={isCurrentSubpost ? navigation.parent : undefined}
     />
-  </section>
+  </FadeIn>
 
   <Button
     variant="outline"

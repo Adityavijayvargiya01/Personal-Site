@@ -23,11 +23,11 @@ export async function getAllProjects(): Promise<CollectionEntry<'projects'>[]> {
     // Sort by priority first (lower number = higher priority)
     const priorityA = a.data.priority || 999
     const priorityB = b.data.priority || 999
-    
+
     if (priorityA !== priorityB) {
       return priorityA - priorityB
     }
-    
+
     // If priorities are equal, sort by startDate (newest first)
     const dateA = a.data.startDate?.getTime() || 0
     const dateB = b.data.startDate?.getTime() || 0
@@ -35,7 +35,9 @@ export async function getAllProjects(): Promise<CollectionEntry<'projects'>[]> {
   })
 }
 
-export async function getAllExperience(): Promise<CollectionEntry<'experience'>[]> {
+export async function getAllExperience(): Promise<
+  CollectionEntry<'experience'>[]
+> {
   const experience = await getCollection('experience')
   return experience.sort((a, b) => {
     const dateA = a.data.startDate?.getTime() || 0

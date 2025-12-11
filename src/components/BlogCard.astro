@@ -22,22 +22,20 @@ const readTime = await getCombinedReadingTime(entry.id)
 const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 ---
 
-<div
-  class="rounded-xl border p-4 group"
->
+<div class="group rounded-xl border p-4">
   <Link
     href={`/${entry.collection}/${entry.id}`}
-    class="flex flex-col gap-4 sm:flex-row !transform-none"
+    class="flex !transform-none flex-col gap-4 sm:flex-row"
   >
     {
       entry.data.image && (
-        <div class="w-full sm:max-w-3xs sm:shrink-0 overflow-hidden rounded-lg">
+        <div class="w-full overflow-hidden rounded-lg sm:max-w-3xs sm:shrink-0">
           <Image
             src={entry.data.image}
             alt={entry.data.title}
             width={400}
             height={210}
-            class="object-cover rounded-lg w-full h-auto themed-image"
+            class="themed-image h-auto w-full rounded-lg object-cover"
             quality={85}
             loading="lazy"
             decoding="async"
@@ -74,8 +72,11 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
       {
         entry.data.tags && (
           <div class="flex flex-wrap gap-2">
-                        {entry.data.tags.map((tag) => (
-              <Badge variant="secondary" className="transition-colors duration-300">
+            {entry.data.tags.map((tag) => (
+              <Badge
+                variant="secondary"
+                className="transition-colors duration-300"
+              >
                 {tag}
               </Badge>
             ))}

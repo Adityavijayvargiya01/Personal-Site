@@ -146,7 +146,7 @@ const postReadingTime = await getPostReadingTime(currentPostId)
           </div>
         </div>
 
-        <div class="flex flex-wrap justify-center gap-2">
+        <!-- <div class="flex flex-wrap justify-center gap-2">
           {
             post.data.tags && post.data.tags.length > 0 ? (
               post.data.tags.map((tag) => (
@@ -163,14 +163,14 @@ const postReadingTime = await getPostReadingTime(currentPostId)
               </span>
             )
           }
-        </div>
+        </div> -->
       </div>
 
-      <PostNavigation
+      <!-- <PostNavigation
         newerPost={navigation.newer}
         olderPost={navigation.older}
         parentPost={isCurrentSubpost ? navigation.parent : undefined}
-      />
+      /> -->
     </section>
 
     {false && headings.length > 0 && <TOCSidebar headings={headings} />}

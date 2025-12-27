@@ -1,88 +1,67 @@
 ---
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
-import {
-  getCombinedReadingTime,
-  getSubpostCount,
-  isSubpost,
-} from '@/lib/data-utils'
-import { formatDate } from '@/lib/utils'
-import { Icon } from 'astro-icon/components'
-import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
-import Link from './Link.astro'
+import { formatDate } from '@/lib/utils'
+import { getPostReadingTime, hasSubposts, getSubpostCount } from '@/lib/data-utils'
+import { badgeVariants } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 
 interface Props {
   entry: CollectionEntry<'blog'>
 }
 
 const { entry } = Astro.props
-const formattedDate = formatDate(entry.data.date)
-const readTime = await getCombinedReadingTime(entry.id)
-const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
+const hasChildPosts = await hasSubposts(entry.id)
+const subpostCount = hasChildPosts ? await getSubpostCount(entry.id) : 0
+const readingTime = await getPostReadingTime(entry.id)
 ---
 
-<div
-  class="hover:bg-secondary/50 rounded-xl border p-4 transition-colors duration-300 group"
->
-  <Link
-    href={`/${entry.collection}/${entry.id}`}
-    class="flex flex-col gap-4 sm:flex-row !transform-none hover:!scale-100"
-    transition:name={`blog-content-${entry.id}`}
+<article class="transition-smooth group">
+  <a
+    href={`/blog/${entry.id}`}
+    class="block rounded-lg border-2 p-4 hover:border-primary/50"
   >
-    {
-      entry.data.image && (
-        <div class="w-full sm:max-w-3xs sm:shrink-0 overflow-hidden rounded-lg">
-          <Image
-            src={entry.data.image}
-            alt={entry.data.title}
-            width={400}
-            height={210}
-            class="object-cover rounded-lg w-full h-auto themed-image"
-            quality={85}
-            loading="lazy"
-            decoding="async"
-            format="webp"
-            widths={[200, 400, 600]}
-            sizes="(max-width: 640px) 100vw, 400px"
-          />
-        </div>
-      )
-    }
-
-    <div class="flex-1">
-      <h3 class="mb-1 text-lg font-medium transition-colors duration-300 group-hover:text-primary">{entry.data.title}</h3>
-      <p class="text-muted-foreground mb-2 text-sm transition-colors duration-300 group-hover:text-foreground/80">{entry.data.description}</p>
-      <div
-        class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"
-      >
-        <span>{formattedDate}</span>
-        <Separator orientation="vertical" className="h-4!" />
-        <span>{readTime}</span>
-        {
-          subpostCount > 0 && (
-            <>
-              <Separator orientation="vertical" className="h-4!" />
-              <span class="flex items-center gap-1">
-                <Icon name="lucide:file-text" class="size-3" />
-                {subpostCount} subpost{subpostCount === 1 ? '' : 's'}
-              </span>
-            </>
-          )
-        }
+    <div class="flex flex-col gap-2">
+      <h3 class="text-lg font-medium group-hover:text-primary transition-colors">
+        {entry.data.title}
+      </h3>
+      <p class="text-muted-foreground text-sm line-clamp-2">
+        {entry.data.description}
+      </p>
+      <div class="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+        <time datetime={entry.data.date.toISOString()}>
+          {formatDate(entry.data.date)}
+        </time>
+        <span>•</span>
+        <span>{readingTime}</span>
+        {hasChildPosts && (
+          <>
+            <span>•</span>
+            <span>{subpostCount} part{subpostCount !== 1 ? 's' : ''}</span>
+          </>
+        )}
+        {entry.data.tags && entry.data.tags.length > 0 && (
+          <>
+            <span>•</span>
+            <div class="flex flex-wrap gap-1">
+              {entry.data.tags.slice(0, 3).map((tag) => (
+                <span
+                  class={cn(
+                    badgeVariants({ variant: 'secondary' }),
+                    'text-xs px-2 py-0.5'
+                  )}
+                >
+                  {tag}
+                </span>
+              ))}
+              {entry.data.tags.length > 3 && (
+                <span class="text-muted-foreground">
+                  +{entry.data.tags.length - 3}
+                </span>
+              )}
+            </div>
+          </>
+        )}
       </div>
-
-      {
-        entry.data.tags && (
-          <div class="flex flex-wrap gap-2">
-                        {entry.data.tags.map((tag) => (
-              <Badge variant="secondary" className="transition-colors duration-300">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-        )
-      }
     </div>
-  </Link>
-</div>
+  </a>
+</article>

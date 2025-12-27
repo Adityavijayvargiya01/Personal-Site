@@ -21,6 +21,7 @@ import {
   isSubpost,
 } from '@/lib/data-utils'
 import { formatDate } from '@/lib/utils'
+import { Motion } from '@/components/motion'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
 import { render } from 'astro:content'
@@ -64,11 +65,12 @@ const postReadingTime = await getPostReadingTime(currentPostId)
     )
   }
 
-  <section
-    class="relative left-[calc(50%-50vw)] grid w-screen grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6 px-5 sm:px-6 md:px-8"
-  >
-    <div class="col-start-2">
-      <Breadcrumbs
+  <Motion client:load>
+    <section
+      class="relative left-[calc(50%-50vw)] grid w-screen grid-cols-[minmax(0px,1fr)_min(calc(var(--breakpoint-md)-2rem),100%)_minmax(0px,1fr)] gap-y-6 px-5 sm:px-6 md:px-8"
+    >
+      <div class="col-start-2">
+        <Breadcrumbs
         items={[
           { href: '/#posts', label: 'Blog', icon: 'ph:books-duotone' },
           ...(isCurrentSubpost && parentPost
@@ -92,8 +94,9 @@ const postReadingTime = await getPostReadingTime(currentPostId)
                 },
               ]),
         ]}
-      />
-    </div>    {
+        />
+      </div>
+      {
       post.data.image && (
         <Image
           src={post.data.image}
@@ -107,12 +110,11 @@ const postReadingTime = await getPostReadingTime(currentPostId)
           format="webp"
           widths={[600, 900, 1200, 1600]}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 900px, 1200px"
-          transition:name={`hero-${currentPostId}`}
         />
       )
     }
 
-    <section class="col-start-2 flex flex-col gap-y-6 text-center">
+      <section class="col-start-2 flex flex-col gap-y-6 text-center">
       <div class="flex flex-col">
         <h1
           class="mb-2 scroll-mt-31 text-4xl leading-tight font-medium text-pretty"
@@ -161,36 +163,37 @@ const postReadingTime = await getPostReadingTime(currentPostId)
         </div>
       </div>
 
+        <PostNavigation
+          newerPost={navigation.newer}
+          olderPost={navigation.older}
+          parentPost={isCurrentSubpost ? navigation.parent : undefined}
+        />
+      </section>
+
+      {headings.length > 0 && <TOCSidebar headings={headings} />}
+
+      <article class="prose col-start-2 max-w-none mx-auto px-1 sm:px-0">
+        <Content />
+      </article>
+
+      {
+        (hasChildPosts || isCurrentSubpost) && (
+          <SubpostsSidebar
+            parentId={
+              isCurrentSubpost ? getParentId(currentPostId) : currentPostId
+            }
+            className="w-64"
+          />
+        )
+      }
+
       <PostNavigation
         newerPost={navigation.newer}
         olderPost={navigation.older}
         parentPost={isCurrentSubpost ? navigation.parent : undefined}
       />
     </section>
-
-    {headings.length > 0 && <TOCSidebar headings={headings} />}
-
-    <article class="prose col-start-2 max-w-none mx-auto px-1 sm:px-0">
-      <Content />
-    </article>
-
-    {
-      (hasChildPosts || isCurrentSubpost) && (
-        <SubpostsSidebar
-          parentId={
-            isCurrentSubpost ? getParentId(currentPostId) : currentPostId
-          }
-          className="w-64"
-        />
-      )
-    }
-
-    <PostNavigation
-      newerPost={navigation.newer}
-      olderPost={navigation.older}
-      parentPost={isCurrentSubpost ? navigation.parent : undefined}
-    />
-  </section>
+  </Motion>
 
   <Button
     variant="outline"
@@ -207,7 +210,7 @@ const postReadingTime = await getPostReadingTime(currentPostId)
   </Button>
 
   <script>
-    document.addEventListener('astro:page-load', () => {
+    document.addEventListener('DOMContentLoaded', () => {
       const scrollToTopButton = document.getElementById('scroll-to-top')
       const footer = document.querySelector('footer')
 

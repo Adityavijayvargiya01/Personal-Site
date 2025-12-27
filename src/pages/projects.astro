@@ -3,6 +3,7 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import PageHead from '@/components/PageHead.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import Layout from '@/layouts/Layout.astro'
+import { Motion } from '@/components/motion'
 import { getAllProjects } from '@/lib/data-utils'
 
 const projects = await getAllProjects()
@@ -11,24 +12,22 @@ const projects = await getAllProjects()
 <Layout>
   <PageHead slot="head" title="Projects" />
   <Breadcrumbs items={[{ label: 'Projects', icon: 'ph:folder-duotone' }]} />
-  <section class="page-animate" data-stagger-index="0" transition:name="main">
-    <div>
-      <div class="min-w-full">
-        <h1 class="mb-6 text-3xl font-bold page-animate" data-stagger-index="1">Projects</h1>
-        <div class="flex flex-col gap-6">
-          {projects.map((project, index) => (
-            <div 
-              class="page-animate" 
-              data-stagger-index={index + 2}
-              data-scroll
-              data-scroll-animation="slide-up-soft"
-              data-scroll-delay={index * 100}
-            >
-              <ProjectCard project={project} />
-            </div>
-          ))}
+  <Motion client:load>
+    <section>
+      <div>
+        <div class="min-w-full">
+          <Motion client:load delay={0.1}>
+            <h1 class="mb-6 text-3xl font-bold">Projects</h1>
+          </Motion>
+          <div class="flex flex-col gap-6">
+            {projects.map((project, index) => (
+              <Motion client:visible delay={index * 0.1}>
+                <ProjectCard project={project} />
+              </Motion>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </Motion>
 </Layout>

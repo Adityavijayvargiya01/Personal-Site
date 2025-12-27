@@ -1,6 +1,7 @@
 ---
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
+import { Motion } from '@/components/motion'
 import { SITE } from '@/consts'
 import { getAllPosts } from '@/lib/data-utils'
 import type { PaginateFunction } from 'astro'
@@ -22,12 +23,12 @@ export async function getStaticPaths({
   <meta slot="head" http-equiv="refresh" content="0; url=/#posts" />
 
   <section class="min-h-[40vh] flex items-center justify-center text-center">
-    <div class="page-animate" data-stagger-index="0">
+    <Motion client:load>
       <h1 class="text-2xl font-medium mb-2">Blog has moved</h1>
       <p class="text-muted-foreground">
         The blog listing now lives on the home page.
         <a href="/#posts" class="underline ml-1">Go to all posts</a>.
       </p>
-    </div>
+    </Motion>
   </section>
 </Layout>

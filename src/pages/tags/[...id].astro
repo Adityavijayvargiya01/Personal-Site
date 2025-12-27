@@ -29,8 +29,8 @@ const { tag, posts } = Astro.props
 <Layout>
   <PageHead
     slot="head"
-    title={`Posts tagged with "${tag}"`}
-    description={`A collection of posts tagged with ${tag}.`}
+    title={`Blogs tagged with "${tag}"`}
+    description={`A collection of blogs tagged with ${tag}.`}
   />
   <Breadcrumbs
     items={[
@@ -40,7 +40,7 @@ const { tag, posts } = Astro.props
   />
 
   <div class="flex flex-wrap items-center gap-2">
-    <h1 class="text-3xl font-medium">Posts tagged with</h1>    <span
+    <h1 class="text-3xl font-medium">Blogs tagged with</h1>    <span
       class="bg-secondary flex items-center gap-x-1 rounded-full px-4 py-2 text-2xl font-medium"
     >
       {tag}

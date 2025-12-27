@@ -13,7 +13,7 @@ export async function getStaticPaths({
   paginate: PaginateFunction
 }) {
   const allPosts = await getAllPosts()
-  return paginate(allPosts, { pageSize: SITE.postsPerPage })
+  return paginate(allPosts, { pageSize: SITE.blogsPerPage })
 }
 
 const allPosts = await getAllPosts()
@@ -29,7 +29,7 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
     <div>
       <div class="min-w-full">
         <div>
-          <h1 class="mb-6 text-3xl font-bold">All Posts</h1>
+          <h1 class="mb-6 text-3xl font-bold">All Blogs</h1>
         </div>
         <div>
           <div class="flex flex-col gap-y-8">

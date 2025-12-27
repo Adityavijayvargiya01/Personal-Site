@@ -1,9 +1,9 @@
 ---
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
-import PostHead from '@/components/PostHead.astro'
-import PostNavigation from '@/components/PostNavigation.astro'
-import SubpostsHeader from '@/components/SubpostsHeader.astro'
-import SubpostsSidebar from '@/components/SubpostsSidebar.astro'
+import BlogHead from '@/components/PostHead.astro'
+import BlogNavigation from '@/components/PostNavigation.astro'
+import SubblogsHeader from '@/components/SubpostsHeader.astro'
+import SubblogsSidebar from '@/components/SubpostsSidebar.astro'
 import TOCHeader from '@/components/TOCHeader.astro'
 import TOCSidebar from '@/components/TOCSidebar.astro'
 import { badgeVariants } from '@/components/ui/badge'
@@ -12,14 +12,14 @@ import { FadeIn } from '@/components/ui/motion'
 import { Separator } from '@/components/ui/separator'
 import Layout from '@/layouts/Layout.astro'
 import {
-  getAdjacentPosts,
-  getAllPostsAndSubposts,
+  getAdjacentBlogs,
+  getAllBlogsAndSubblogs,
   getParentId,
-  getParentPost,
-  getPostReadingTime,
-  getSubpostCount,
-  hasSubposts,
-  isSubpost,
+  getParentBlog,
+  getBlogReadingTime,
+  getSubblogCount,
+  hasSubblogs,
+  isSubblog,
 } from '@/lib/data-utils'
 import { formatDate } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
@@ -27,35 +27,35 @@ import { Image } from 'astro:assets'
 import { render } from 'astro:content'
 
 export async function getStaticPaths() {
-  const posts = await getAllPostsAndSubposts()
-  return posts.map((post) => ({
-    params: { id: post.id },
-    props: post,
+  const blogs = await getAllBlogsAndSubblogs()
+  return blogs.map((blog) => ({
+    params: { id: blog.id },
+    props: blog,
   }))
 }
 
-const post = Astro.props
-const currentPostId = Astro.params.id
-const { Content, headings } = await render(post)
+const blog = Astro.props
+const currentBlogId = Astro.params.id
+const { Content, headings } = await render(blog)
 
-const isCurrentSubpost = isSubpost(currentPostId)
-const navigation = await getAdjacentPosts(currentPostId)
-const parentPost = isCurrentSubpost ? await getParentPost(currentPostId) : null
+const isCurrentSubblog = isSubblog(currentBlogId)
+const navigation = await getAdjacentBlogs(currentBlogId)
+const parentBlog = isCurrentSubblog ? await getParentBlog(currentBlogId) : null
 
-const hasChildPosts = await hasSubposts(currentPostId)
-const subpostCount = !isCurrentSubpost
-  ? await getSubpostCount(currentPostId)
+const hasChildBlogs = await hasSubblogs(currentBlogId)
+const subblogCount = !isCurrentSubblog
+  ? await getSubblogCount(currentBlogId)
   : 0
-const postReadingTime = await getPostReadingTime(currentPostId)
+const blogReadingTime = await getBlogReadingTime(currentBlogId)
 ---
 
 <Layout>
-  <PostHead slot="head" post={post} />
+  <BlogHead slot="head" post={blog} />
   {
-    (hasChildPosts || isCurrentSubpost) && (
-      <SubpostsHeader
-        slot="subposts-navigation"
-        parentId={isCurrentSubpost ? getParentId(currentPostId) : currentPostId}
+    (hasChildBlogs || isCurrentSubblog) && (
+      <SubblogsHeader
+        slot="subblogs-navigation"
+        parentId={isCurrentSubblog ? getParentId(currentBlogId) : currentBlogId}
       />
     )
   }
@@ -73,24 +73,24 @@ const postReadingTime = await getPostReadingTime(currentPostId)
     <div class="col-start-2">
       <Breadcrumbs
         items={[
-          { href: '/#posts', label: 'Blog', icon: 'ph:books-duotone' },
-          ...(isCurrentSubpost && parentPost
+          { href: '/blogs', label: 'Blog', icon: 'ph:books-duotone' },
+          ...(isCurrentSubblog && parentBlog
             ? [
                 {
-                  href: `/blog/${parentPost.id}`,
-                  label: parentPost.data.title,
+                  href: `/blog/${parentBlog.id}`,
+                  label: parentBlog.data.title,
                   icon: 'ph:book-open-duotone',
                 },
                 {
-                  href: `/blog/${currentPostId}`,
-                  label: post.data.title,
+                  href: `/blog/${currentBlogId}`,
+                  label: blog.data.title,
                   icon: 'ph:file-text-duotone',
                 },
               ]
             : [
                 {
-                  href: `/blog/${currentPostId}`,
-                  label: post.data.title,
+                  href: `/blog/${currentBlogId}`,
+                  label: blog.data.title,
                   icon: 'ph:book-open-duotone',
                 },
               ]),
@@ -98,10 +98,10 @@ const postReadingTime = await getPostReadingTime(currentPostId)
       />
     </div>
     {
-      post.data.image && (
+      blog.data.image && (
         <Image
-          src={post.data.image}
-          alt={post.data.title}
+          src={blog.data.image}
+          alt={blog.data.title}
           width={1200}
           height={630}
           class="themed-image col-span-full mx-auto w-full max-w-3xl rounded-lg object-cover"
@@ -111,7 +111,7 @@ const postReadingTime = await getPostReadingTime(currentPostId)
           format="webp"
           widths={[600, 900, 1200, 1600]}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 900px, 1200px"
-          transition:name={`blog-image-${currentPostId}`}
+          transition:name={`blog-image-${currentBlogId}`}
         />
       )
     }
@@ -120,26 +120,26 @@ const postReadingTime = await getPostReadingTime(currentPostId)
       <div class="flex flex-col">
         <h1
           class="font-poppins mb-2 scroll-mt-31 text-4xl leading-tight font-medium text-pretty"
-          id="post-title"
+          id="blog-title"
         >
-          {post.data.title}
+          {blog.data.title}
         </h1>
         <div
           class="text-muted-foreground mb-4 flex flex-wrap items-center justify-center gap-2 text-sm"
         >
           <div class="flex items-center gap-2">
-            <span>{formatDate(post.data.date)}</span>
+            <span>{formatDate(blog.data.date)}</span>
             <Separator orientation="vertical" className="h-4!" />
-            <span>{postReadingTime}</span>
+            <span>{blogReadingTime}</span>
             {
-              subpostCount > 0 && (
+              subblogCount > 0 && (
                 <>
                   {' '}
                   <Separator orientation="vertical" className="h-4!" />{' '}
                   <span class="flex items-center gap-1">
                     {' '}
                     <Icon name="ph:file-text-duotone" class="size-3" />{' '}
-                    {subpostCount} subpost{subpostCount === 1 ? '' : 's'}{' '}
+                    {subblogCount} subblog{subblogCount === 1 ? '' : 's'}{' '}
                   </span>{' '}
                 </>
               )
@@ -149,8 +149,8 @@ const postReadingTime = await getPostReadingTime(currentPostId)
 
         <!-- <div class="flex flex-wrap justify-center gap-2">
           {
-            post.data.tags && post.data.tags.length > 0 ? (
-              post.data.tags.map((tag) => (
+            blog.data.tags && blog.data.tags.length > 0 ? (
+              blog.data.tags.map((tag) => (
                 <a
                   href={`/tags/${tag}`}
                   class={badgeVariants({ variant: 'secondary' })}
@@ -167,10 +167,10 @@ const postReadingTime = await getPostReadingTime(currentPostId)
         </div> -->
       </div>
 
-      <!-- <PostNavigation
-        newerPost={navigation.newer}
-        olderPost={navigation.older}
-        parentPost={isCurrentSubpost ? navigation.parent : undefined}
+      <!-- <BlogNavigation
+        newerBlog={navigation.newer}
+        olderBlog={navigation.older}
+        parentBlog={isCurrentSubblog ? navigation.parent : undefined}
       /> -->
     </section>
 
@@ -181,20 +181,20 @@ const postReadingTime = await getPostReadingTime(currentPostId)
     </article>
 
     {
-      (hasChildPosts || isCurrentSubpost) && (
-        <SubpostsSidebar
+      (hasChildBlogs || isCurrentSubblog) && (
+        <SubblogsSidebar
           parentId={
-            isCurrentSubpost ? getParentId(currentPostId) : currentPostId
+            isCurrentSubblog ? getParentId(currentBlogId) : currentBlogId
           }
           className="w-64"
         />
       )
     }
 
-    <PostNavigation
+    <BlogNavigation
       newerPost={navigation.newer}
       olderPost={navigation.older}
-      parentPost={isCurrentSubpost ? navigation.parent : undefined}
+      parentPost={isCurrentSubblog ? navigation.parent : undefined}
     />
   </FadeIn>
 

@@ -3,21 +3,21 @@ import BlogCard from '@/components/BlogCard.astro'
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
-import { getAllPosts, groupPostsByYear } from '@/lib/data-utils'
+import { getAllBlogs, groupBlogsByYear } from '@/lib/data-utils'
 
-const allPosts = await getAllPosts()
-const postsByYear = groupPostsByYear(allPosts)
-const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
+const allBlogs = await getAllBlogs()
+const blogsByYear = groupBlogsByYear(allBlogs)
+const years = Object.keys(blogsByYear).sort((a, b) => parseInt(b) - parseInt(a))
 ---
 
 <Layout>
-  <PageHead slot="head" title="Posts" />
-  <Breadcrumbs items={[{ label: 'Posts', icon: 'ph:article-duotone' }]} />
+  <PageHead slot="head" title="Blogs" />
+  <Breadcrumbs items={[{ label: 'Blogs', icon: 'ph:article-duotone' }]} />
   <section>
     <div>
       <div class="min-w-full">
         <div>
-          <h1 class="mb-6 text-3xl font-bold">Posts</h1>
+          <h1 class="mb-6 text-3xl font-bold">Blogs</h1>
         </div>
         <div>
           <div class="flex flex-col gap-y-8">
@@ -26,9 +26,9 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
                 <section class="flex flex-col gap-y-4">
                   <div class="font-medium">{year}</div>
                   <ul class="flex flex-col gap-4">
-                    {postsByYear[year].map((post) => (
+                    {blogsByYear[year].map((blog) => (
                       <li>
-                        <BlogCard entry={post} />
+                        <BlogCard entry={blog} />
                       </li>
                     ))}
                   </ul>

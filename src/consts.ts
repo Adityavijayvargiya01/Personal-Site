@@ -7,14 +7,14 @@ export const SITE: Site = {
   href: 'https://adityavijayvargiya.me',
   author: 'Aditya',
   locale: 'en-US',
-  featuredPostCount: 2,
-  postsPerPage: 10,
+  featuredBlogCount: 2,
+  blogsPerPage: 10,
 }
 
 export const NAV_LINKS: SocialLink[] = [
   {
-    href: '#posts',
-    label: 'posts',
+    href: '/blogs',
+    label: 'blogs',
   },
   {
     href: '#experience',
@@ -23,6 +23,10 @@ export const NAV_LINKS: SocialLink[] = [
   {
     href: '#projects',
     label: 'projects',
+  },
+  {
+    href: '#socials',
+    label: 'socials',
   },
 ]
 

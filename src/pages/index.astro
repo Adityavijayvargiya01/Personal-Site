@@ -7,10 +7,10 @@ import ProjectCard from '@/components/ProjectCard.astro'
 import { buttonVariants } from '@/components/ui/button'
 import { FadeIn } from '@/components/ui/motion'
 import Layout from '@/layouts/Layout.astro'
-import { getAllExperience, getAllPosts, getAllProjects } from '@/lib/data-utils'
+import { getAllExperience, getAllBlogs, getAllProjects } from '@/lib/data-utils'
 
-const allPosts = await getAllPosts()
-const recentPosts = allPosts.slice(0, 3)
+const allBlogs = await getAllBlogs()
+const recentBlogs = allBlogs.slice(0, 3)
 const projects = await getAllProjects()
 const experience = await getAllExperience()
 ---
@@ -62,24 +62,24 @@ const experience = await getAllExperience()
   </section>
   </FadeIn>
 
-  <!-- Posts Section -->
+  <!-- Blogs Section -->
   <FadeIn client:load delay={0.4}>
-  <section id="posts" class="mx-auto max-w-3xl px-4 py-12">
+  <section id="blogs" class="mx-auto max-w-3xl px-4 py-12">
     <div>
-      <h2 class="mb-6 text-3xl font-bold">Recent Posts</h2>
+      <h2 class="mb-6 text-3xl font-bold">Recent Blogs</h2>
     </div>
     <div>
       <div class="flex flex-col gap-4">
-        {recentPosts.map((post) => (
-          <BlogCard entry={post} />
+        {recentBlogs.map((blog) => (
+          <BlogCard entry={blog} />
         ))}
       </div>
       <div class="mt-8 flex justify-center">
         <Link
-          href="/blog"
+          href="/blogs"
           class={buttonVariants({ variant: 'outline' })}
         >
-          Read more posts
+          Read more blogs
         </Link>
       </div>
     </div>

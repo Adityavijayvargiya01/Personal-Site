@@ -11,7 +11,7 @@
       line-height: 1.75;
     }
 
-    /* Don't use an <h1> in your posts, one is already generated in blog/[...id].astro */
+    /* Don't use an <h1> in your blogs, one is already generated in blog/[...id].astro */
     h1 {
       @apply text-foreground mt-0 mb-6 scroll-mt-32 text-4xl xl:scroll-mt-20;
       font-family: var(--font-heading);

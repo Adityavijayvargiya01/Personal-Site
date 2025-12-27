@@ -1,19 +1,22 @@
 import { getCollection, type CollectionEntry } from 'astro:content'
 import { readingTime, calculateWordCountFromHtml } from '@/lib/utils'
 
-export async function getAllPosts(): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getCollection('blog')
-  return posts
-    .filter((post) => !post.data.draft && !isSubpost(post.id))
+export async function getAllBlogs(): Promise<CollectionEntry<'blog'>[]> {
+  const blogs = await getCollection('blog')
+  return blogs
+    .filter((blog) => !blog.data.draft && !isSubblog(blog.id))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
-export async function getAllPostsAndSubposts(): Promise<
+// Alias for backward compatibility
+export const getAllPosts = getAllBlogs
+
+export async function getAllBlogsAndSubblogs(): Promise<
   CollectionEntry<'blog'>[]
 > {
-  const posts = await getCollection('blog')
-  return posts
-    .filter((post) => !post.data.draft)
+  const blogs = await getCollection('blog')
+  return blogs
+    .filter((blog) => !blog.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
@@ -47,79 +50,82 @@ export async function getAllExperience(): Promise<
 }
 
 export async function getAllTags(): Promise<Map<string, number>> {
-  const posts = await getAllPosts()
-  return posts.reduce((acc, post) => {
-    post.data.tags?.forEach((tag) => {
+  const blogs = await getAllBlogs()
+  return blogs.reduce((acc, blog) => {
+    blog.data.tags?.forEach((tag) => {
       acc.set(tag, (acc.get(tag) || 0) + 1)
     })
     return acc
   }, new Map<string, number>())
 }
 
-export async function getAdjacentPosts(currentId: string): Promise<{
+export async function getAdjacentBlogs(currentId: string): Promise<{
   newer: CollectionEntry<'blog'> | null
   older: CollectionEntry<'blog'> | null
   parent: CollectionEntry<'blog'> | null
 }> {
-  const allPosts = await getAllPosts()
+  const allBlogs = await getAllBlogs()
 
-  if (isSubpost(currentId)) {
+  if (isSubblog(currentId)) {
     const parentId = getParentId(currentId)
-    const allPosts = await getAllPosts()
-    const parent = allPosts.find((post) => post.id === parentId) || null
+    const allBlogs = await getAllBlogs()
+    const parent = allBlogs.find((blog) => blog.id === parentId) || null
 
-    const posts = await getCollection('blog')
-    const subposts = posts
+    const blogs = await getCollection('blog')
+    const subblogs = blogs
       .filter(
-        (post) =>
-          isSubpost(post.id) &&
-          getParentId(post.id) === parentId &&
-          !post.data.draft,
+        (blog) =>
+          isSubblog(blog.id) &&
+          getParentId(blog.id) === parentId &&
+          !blog.data.draft,
       )
       .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())
 
-    const currentIndex = subposts.findIndex((post) => post.id === currentId)
+    const currentIndex = subblogs.findIndex((blog) => blog.id === currentId)
     if (currentIndex === -1) {
       return { newer: null, older: null, parent }
     }
 
     return {
       newer:
-        currentIndex < subposts.length - 1 ? subposts[currentIndex + 1] : null,
-      older: currentIndex > 0 ? subposts[currentIndex - 1] : null,
+        currentIndex < subblogs.length - 1 ? subblogs[currentIndex + 1] : null,
+      older: currentIndex > 0 ? subblogs[currentIndex - 1] : null,
       parent,
     }
   }
 
-  const parentPosts = allPosts.filter((post) => !isSubpost(post.id))
-  const currentIndex = parentPosts.findIndex((post) => post.id === currentId)
+  const parentBlogs = allBlogs.filter((blog) => !isSubblog(blog.id))
+  const currentIndex = parentBlogs.findIndex((blog) => blog.id === currentId)
 
   if (currentIndex === -1) {
     return { newer: null, older: null, parent: null }
   }
 
   return {
-    newer: currentIndex > 0 ? parentPosts[currentIndex - 1] : null,
+    newer: currentIndex > 0 ? parentBlogs[currentIndex - 1] : null,
     older:
-      currentIndex < parentPosts.length - 1
-        ? parentPosts[currentIndex + 1]
+      currentIndex < parentBlogs.length - 1
+        ? parentBlogs[currentIndex + 1]
         : null,
     parent: null,
   }
 }
 
-export async function getPostsByTag(
+export async function getBlogsByTag(
   tag: string,
 ): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getAllPosts()
-  return posts.filter((post) => post.data.tags?.includes(tag))
+  const blogs = await getAllBlogs()
+  return blogs.filter((blog) => blog.data.tags?.includes(tag))
 }
 
-export async function getRecentPosts(
+// Alias for backward compatibility
+export const getPostsByTag = getBlogsByTag
+
+export async function getRecentBlogs(
   count: number,
 ): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getAllPosts()
-  return posts.slice(0, count)
+  const blogs = await getAllBlogs()
+  return blogs.slice(0, count)
 }
 
 export async function getSortedTags(): Promise<
@@ -134,90 +140,111 @@ export async function getSortedTags(): Promise<
     })
 }
 
-export function getParentId(subpostId: string): string {
-  return subpostId.split('/')[0]
+export function getParentId(subblogId: string): string {
+  return subblogId.split('/')[0]
 }
 
-export async function getSubpostsForParent(
+export async function getSubblogsForParent(
   parentId: string,
 ): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getCollection('blog')
-  return posts
+  const blogs = await getCollection('blog')
+  return blogs
     .filter(
-      (post) =>
-        !post.data.draft &&
-        isSubpost(post.id) &&
-        getParentId(post.id) === parentId,
+      (blog) =>
+        !blog.data.draft &&
+        isSubblog(blog.id) &&
+        getParentId(blog.id) === parentId,
     )
     .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf())
 }
 
-export function groupPostsByYear(
-  posts: CollectionEntry<'blog'>[],
+// Alias for backward compatibility
+export const getSubpostsForParent = getSubblogsForParent
+
+export function groupBlogsByYear(
+  blogs: CollectionEntry<'blog'>[],
 ): Record<string, CollectionEntry<'blog'>[]> {
-  return posts.reduce(
-    (acc: Record<string, CollectionEntry<'blog'>[]>, post) => {
-      const year = post.data.date.getFullYear().toString()
-      ;(acc[year] ??= []).push(post)
+  return blogs.reduce(
+    (acc: Record<string, CollectionEntry<'blog'>[]>, blog) => {
+      const year = blog.data.date.getFullYear().toString()
+      ;(acc[year] ??= []).push(blog)
       return acc
     },
     {},
   )
 }
 
-export async function hasSubposts(postId: string): Promise<boolean> {
-  const subposts = await getSubpostsForParent(postId)
-  return subposts.length > 0
+// Alias for backward compatibility
+export const groupPostsByYear = groupBlogsByYear
+
+export async function hasSubblogs(blogId: string): Promise<boolean> {
+  const subblogs = await getSubblogsForParent(blogId)
+  return subblogs.length > 0
 }
 
-export function isSubpost(postId: string): boolean {
-  return postId.includes('/')
+export function isSubblog(blogId: string): boolean {
+  return blogId.includes('/')
 }
 
-export async function getParentPost(
-  subpostId: string,
+// Alias for backward compatibility
+export const isSubpost = isSubblog
+
+export async function getParentBlog(
+  subblogId: string,
 ): Promise<CollectionEntry<'blog'> | null> {
-  if (!isSubpost(subpostId)) {
+  if (!isSubblog(subblogId)) {
     return null
   }
 
-  const parentId = getParentId(subpostId)
-  const allPosts = await getAllPosts()
-  return allPosts.find((post) => post.id === parentId) || null
+  const parentId = getParentId(subblogId)
+  const allBlogs = await getAllBlogs()
+  return allBlogs.find((blog) => blog.id === parentId) || null
 }
 
-export async function getPostById(
-  postId: string,
+// Alias for backward compatibility
+export const getParentPost = getParentBlog
+
+export async function getBlogById(
+  blogId: string,
 ): Promise<CollectionEntry<'blog'> | null> {
-  const allPosts = await getAllPostsAndSubposts()
-  return allPosts.find((post) => post.id === postId) || null
+  const allBlogs = await getAllBlogsAndSubblogs()
+  return allBlogs.find((blog) => blog.id === blogId) || null
 }
 
-export async function getSubpostCount(parentId: string): Promise<number> {
-  const subposts = await getSubpostsForParent(parentId)
-  return subposts.length
+// Alias for backward compatibility
+export const getPostById = getBlogById
+
+export async function getSubblogCount(parentId: string): Promise<number> {
+  const subblogs = await getSubblogsForParent(parentId)
+  return subblogs.length
 }
 
-export async function getCombinedReadingTime(postId: string): Promise<string> {
-  const post = await getPostById(postId)
-  if (!post) return readingTime(0)
+// Alias for backward compatibility
+export const getSubpostCount = getSubblogCount
 
-  let totalWords = calculateWordCountFromHtml(post.body)
+export async function getCombinedReadingTime(blogId: string): Promise<string> {
+  const blog = await getBlogById(blogId)
+  if (!blog) return readingTime(0)
 
-  if (!isSubpost(postId)) {
-    const subposts = await getSubpostsForParent(postId)
-    for (const subpost of subposts) {
-      totalWords += calculateWordCountFromHtml(subpost.body)
+  let totalWords = calculateWordCountFromHtml(blog.body)
+
+  if (!isSubblog(blogId)) {
+    const subblogs = await getSubblogsForParent(blogId)
+    for (const subblog of subblogs) {
+      totalWords += calculateWordCountFromHtml(subblog.body)
     }
   }
 
   return readingTime(totalWords)
 }
 
-export async function getPostReadingTime(postId: string): Promise<string> {
-  const post = await getPostById(postId)
-  if (!post) return readingTime(0)
+export async function getBlogReadingTime(blogId: string): Promise<string> {
+  const blog = await getBlogById(blogId)
+  if (!blog) return readingTime(0)
 
-  const wordCount = calculateWordCountFromHtml(post.body)
+  const wordCount = calculateWordCountFromHtml(blog.body)
   return readingTime(wordCount)
 }
+
+// Alias for backward compatibility
+export const getPostReadingTime = getBlogReadingTime

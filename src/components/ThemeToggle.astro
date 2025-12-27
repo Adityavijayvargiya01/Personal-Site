@@ -12,11 +12,11 @@ import { Icon } from 'astro-icon/components'
 >
   <Icon
     name="ph:sun-duotone"
-    class="size-5 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
+    class="size-5 dark:hidden"
   />
   <Icon
     name="ph:moon-duotone"
-    class="absolute size-5 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
+    class="absolute size-5 hidden dark:block"
   />
   <span class="sr-only">Toggle theme</span>
 </Button>
@@ -46,31 +46,9 @@ import { Icon } from 'astro-icon/components'
     const currentTheme = element.getAttribute('data-theme')
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
 
-    // Add theme transitioning class for image dimming effect
-    element.classList.add('theme-transitioning')
-    element.classList.add('animate-fade-out')
-    element.classList.add('[&_*]:transition-none')
-
-    setTimeout(() => {
-      element.setAttribute('data-theme', newTheme)
-      element.classList.remove('scheme-dark', 'scheme-light')
-      element.classList.add(newTheme === 'dark' ? 'scheme-dark' : 'scheme-light')
-
-      window.getComputedStyle(element).getPropertyValue('opacity')
-
-      element.classList.remove('animate-fade-out')
-      element.classList.add('animate-fade-in')
-
-      requestAnimationFrame(() => {
-        element.classList.remove('[&_*]:transition-none')
-      })
-
-      setTimeout(() => {
-        element.classList.remove('animate-fade-in')
-        // Remove theme transitioning class after animation completes
-        element.classList.remove('theme-transitioning')
-      }, 600) // Duration of fade-in animation
-    }, 300) // Duration of fade-out animation
+    element.setAttribute('data-theme', newTheme)
+    element.classList.remove('scheme-dark', 'scheme-light')
+    element.classList.add(newTheme === 'dark' ? 'scheme-dark' : 'scheme-light')
 
     localStorage.setItem('theme', newTheme)
   }
@@ -88,19 +66,11 @@ import { Icon } from 'astro-icon/components'
     const storedTheme = localStorage.getItem('theme') || 'light'
     const element = document.documentElement
 
-    element.classList.add('[&_*]:transition-none')
-
-    window.getComputedStyle(element).getPropertyValue('opacity')
-
     element.setAttribute('data-theme', storedTheme)
     element.classList.remove('scheme-dark', 'scheme-light')
     element.classList.add(
       storedTheme === 'dark' ? 'scheme-dark' : 'scheme-light',
     )
-
-    requestAnimationFrame(() => {
-      element.classList.remove('[&_*]:transition-none')
-    })
 
     initThemeToggle()
   })

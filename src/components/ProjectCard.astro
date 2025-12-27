@@ -14,7 +14,7 @@ const { project } = Astro.props
 ---
 
 <div
-  class="project-card group hover:bg-secondary/50 hover-lift hover-scale-soft transition-smooth rounded-xl border p-4"
+  class="project-card group hover:bg-secondary/50 rounded-xl border p-4"
   data-scroll
   data-scroll-animation="slide-up-soft"
 >
@@ -44,7 +44,7 @@ const { project } = Astro.props
     }
     <div class="grow">
       <h3
-        class="group-hover:text-primary mb-1 text-lg font-medium transition-colors duration-300"
+        class="group-hover:text-primary mb-1 text-lg font-medium"
       >
         {project.data.name}
       </h3>

@@ -78,10 +78,6 @@
   ::backdrop,
   ::file-selector-button {
     @apply border-border outline-ring/50 tracking-tight;
-    /* Force disable all animations and transitions */
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
   }
 
   /* Apply Rubik medium weight to all bold text elements */
@@ -100,6 +96,11 @@
     font-family: var(--font-heading);
     font-weight: 500 !important;
   }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 main img {
@@ -110,16 +111,4 @@ main img {
 main {
   content-visibility: auto;
   contain-intrinsic-size: 1px 5000px;
-}
-
-/* Overrides to ensure content is visible despite JS removal */
-[data-scroll] {
-  opacity: 1 !important;
-  will-change: auto !important;
-  transform: none !important;
-}
-
-.page-animate {
-  opacity: 1 !important;
-  animation: none !important;
 }

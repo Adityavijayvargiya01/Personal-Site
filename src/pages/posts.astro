@@ -4,7 +4,6 @@ import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import PageHead from '@/components/PageHead.astro'
 import Layout from '@/layouts/Layout.astro'
 import { getAllPosts, groupPostsByYear } from '@/lib/data-utils'
-import { FadeIn } from '@/components/ui/motion'
 
 const allPosts = await getAllPosts()
 const postsByYear = groupPostsByYear(allPosts)
@@ -17,10 +16,10 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
   <section>
     <div>
       <div class="min-w-full">
-        <FadeIn client:load delay={0}>
+        <div>
           <h1 class="mb-6 text-3xl font-bold">Posts</h1>
-        </FadeIn>
-        <FadeIn client:load delay={0.1}>
+        </div>
+        <div>
           <div class="flex flex-col gap-y-8">
             {
               years.map((year) => (
@@ -37,7 +36,7 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
               ))
             }
           </div>
-        </FadeIn>
+        </div>
       </div>
     </div>
   </section>

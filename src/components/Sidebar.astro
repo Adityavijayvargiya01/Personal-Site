@@ -10,7 +10,7 @@ import { Icon } from 'astro-icon/components'
 >
   <nav class="flex flex-col items-start gap-4">
     <!-- Home -->
-    <Link href="/" class="flex items-center gap-3 text-foreground/60 hover:text-foreground transition-colors">
+    <Link href="/" class="flex items-center gap-3 text-foreground/60 hover:text-foreground">
       <Icon name="ph:user-circle-duotone" class="size-5" />
       <span class="text-lg">Home</span>
     </Link>
@@ -20,7 +20,7 @@ import { Icon } from 'astro-icon/components'
       NAV_LINKS.map((item) => (
         <Link
           href={item.href}
-          class="flex items-center gap-3 text-foreground/60 hover:text-foreground transition-colors"
+          class="flex items-center gap-3 text-foreground/60 hover:text-foreground"
         >
           <Icon
             name={item.href === '/posts' ? 'ph:article-duotone' : item.href === '/projects' ? 'ph:folder-duotone' : 'ph:briefcase-duotone'}
@@ -34,11 +34,11 @@ import { Icon } from 'astro-icon/components'
     <!-- Theme toggle -->
     <button
       id="sidebar-theme-toggle"
-      class="flex items-center gap-3 text-foreground/60 hover:text-foreground transition-colors cursor-pointer"
+      class="flex items-center gap-3 text-foreground/60 hover:text-foreground cursor-pointer"
     >
       <span class="relative size-5">
-        <Icon name="ph:sun-duotone" class="size-5 absolute inset-0 scale-100 rotate-0 transition-transform dark:scale-0 dark:-rotate-90" />
-        <Icon name="ph:moon-duotone" class="size-5 absolute inset-0 scale-0 rotate-90 transition-transform dark:scale-100 dark:rotate-0" />
+        <Icon name="ph:sun-duotone" class="size-5 absolute inset-0 dark:hidden" />
+        <Icon name="ph:moon-duotone" class="size-5 absolute inset-0 hidden dark:block" />
       </span>
       <span class="text-lg">Theme</span>
     </button>
@@ -54,29 +54,9 @@ import { Icon } from 'astro-icon/components'
         const currentTheme = element.getAttribute('data-theme')
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
 
-        element.classList.add('theme-transitioning')
-        element.classList.add('animate-fade-out')
-        element.classList.add('[&_*]:transition-none')
-
-        setTimeout(() => {
-          element.setAttribute('data-theme', newTheme)
-          element.classList.remove('scheme-dark', 'scheme-light')
-          element.classList.add(newTheme === 'dark' ? 'scheme-dark' : 'scheme-light')
-
-          window.getComputedStyle(element).getPropertyValue('opacity')
-
-          element.classList.remove('animate-fade-out')
-          element.classList.add('animate-fade-in')
-
-          requestAnimationFrame(() => {
-            element.classList.remove('[&_*]:transition-none')
-          })
-
-          setTimeout(() => {
-            element.classList.remove('animate-fade-in')
-            element.classList.remove('theme-transitioning')
-          }, 600)
-        }, 300)
+        element.setAttribute('data-theme', newTheme)
+        element.classList.remove('scheme-dark', 'scheme-light')
+        element.classList.add(newTheme === 'dark' ? 'scheme-dark' : 'scheme-light')
 
         localStorage.setItem('theme', newTheme)
       })

@@ -19,10 +19,11 @@ const experience = await getAllExperience()
   <PageHead slot="head" title="Home" />
   
   <!-- Hero Section -->
+  <FadeIn client:load delay={0.4}>
   <section
     class="mx-auto flex min-h-[60vh] max-w-xl flex-col justify-center gap-y-4 px-4"
   >
-    <FadeIn client:load delay={0.1}>
+    <div>
       <div>
         <h3 class="font-poppins mb-2 text-3xl leading-none font-medium">
           Aditya Vijayvargiya
@@ -31,8 +32,8 @@ const experience = await getAllExperience()
           Software Developer Intern <span class="text-blue-500">@Philips</span>
         </span>
       </div>
-    </FadeIn>
-    <FadeIn client:load delay={0.2}>
+    </div>
+    <div>
       <div>
         <p class="text-muted-foreground mb-5 text-base">
           Hello there, I'm a software developer from India. I'm currently
@@ -57,15 +58,17 @@ const experience = await getAllExperience()
           insights with others through blogs and Twitter posts.
         </p>
       </div>
-    </FadeIn>
+    </div>
   </section>
+  </FadeIn>
 
   <!-- Posts Section -->
+  <FadeIn client:load delay={0.4}>
   <section id="posts" class="mx-auto max-w-3xl px-4 py-12">
-    <FadeIn client:load delay={0.3}>
+    <div>
       <h2 class="mb-6 text-3xl font-bold">Recent Posts</h2>
-    </FadeIn>
-    <FadeIn client:load delay={0.4}>
+    </div>
+    <div>
       <div class="flex flex-col gap-4">
         {recentPosts.map((post) => (
           <BlogCard entry={post} />
@@ -79,18 +82,20 @@ const experience = await getAllExperience()
           Read more posts
         </Link>
       </div>
-    </FadeIn>
+    </div>
   </section>
+  </FadeIn>
 
   <!-- Experience Section -->
+  <FadeIn client:load delay={0.4}>
   <section id="experience" class="mx-auto max-w-3xl px-4 py-12">
-    <FadeIn client:load delay={0.5}>
+    <div>
       <h2 class="mb-6 text-3xl font-bold">Work Experience</h2>
       <p class="text-muted-foreground mb-8 text-sm leading-relaxed">
         Here's a timeline of my professional journey, including internships, projects, and research work that have shaped my skills in software development.
       </p>
-    </FadeIn>
-    <FadeIn client:load delay={0.6}>
+    </div>
+    <div>
       <div class="flex flex-col gap-4">
         {experience.map((exp) => (
           <div>
@@ -98,15 +103,17 @@ const experience = await getAllExperience()
           </div>
         ))}
       </div>
-    </FadeIn>
+    </div>
   </section>
+  </FadeIn>
 
   <!-- Projects Section -->
+  <FadeIn client:load delay={0.4}>
   <section id="projects" class="mx-auto max-w-3xl px-4 py-12">
-    <FadeIn client:load delay={0.7}>
+    <div>
       <h2 class="mb-6 text-3xl font-bold">Projects</h2>
-    </FadeIn>
-    <FadeIn client:load delay={0.8}>
+    </div>
+    <div>
       <div class="flex flex-col gap-6">
         {projects.map((project) => (
           <div>
@@ -114,8 +121,9 @@ const experience = await getAllExperience()
           </div>
         ))}
       </div>
-    </FadeIn>
+    </div>
   </section>
+  </FadeIn>
 </Layout>
 
 <script>

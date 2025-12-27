@@ -11,6 +11,7 @@ interface Props {
 }
 
 const { project } = Astro.props
+const isExternal = project.data.link.startsWith('http')
 ---
 
 <div
@@ -21,7 +22,7 @@ const { project } = Astro.props
   <Link
     href={project.data.link}
     class="flex flex-col gap-4 sm:flex-row"
-    external
+    external={isExternal}
   >
     {
       project.data.image && (

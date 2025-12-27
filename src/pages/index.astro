@@ -21,7 +21,7 @@ const experience = await getAllExperience()
   <!-- Hero Section -->
   <FadeIn client:load delay={0.4}>
   <section
-    class="mx-auto flex min-h-[60vh] max-w-xl flex-col justify-center gap-y-4 px-4"
+    class="mx-auto flex max-w-3xl flex-col justify-center  px-4"
   >
     <div>
       <div>
@@ -127,7 +127,7 @@ const experience = await getAllExperience()
 </Layout>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
     const links = document.querySelectorAll('a[href^="#"]')
     links.forEach(link => {
       link.addEventListener('click', (e) => {

@@ -40,6 +40,25 @@ export function FadeIn({
   duration = 0.5,
   variant = 'up',
 }: FadeInProps) {
+  const [isReady, setIsReady] = React.useState(false)
+
+  React.useEffect(() => {
+    // Small delay to ensure DOM is ready after View Transitions
+    const timer = requestAnimationFrame(() => {
+      setIsReady(true)
+    })
+    return () => cancelAnimationFrame(timer)
+  }, [])
+
+  if (!isReady) {
+    // Return children with opacity 0 to prevent flash
+    return (
+      <div className={cn(className)} style={{ opacity: 0 }}>
+        {children}
+      </div>
+    )
+  }
+
   return (
     <motion.div
       initial="hidden"

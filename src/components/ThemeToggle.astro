@@ -8,15 +8,15 @@ import { Icon } from 'astro-icon/components'
   variant="ghost"
   size="icon"
   title="Toggle theme"
-  className="-me-2 size-10 p-2"
+  className="-me-2 size-10 p-2 relative"
 >
   <Icon
     name="ph:sun-duotone"
-    class="size-5 dark:hidden"
+    class="absolute size-5 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
   />
   <Icon
     name="ph:moon-duotone"
-    class="absolute size-5 hidden dark:block"
+    class="absolute size-5 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
   />
   <span class="sr-only">Toggle theme</span>
 </Button>

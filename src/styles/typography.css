@@ -49,7 +49,7 @@
     }
 
     a {
-      @apply text-foreground decoration-muted-foreground hover:decoration-foreground font-medium break-words underline underline-offset-[3px] transition-colors;
+      @apply text-foreground decoration-link hover:text-link font-medium break-words underline underline-offset-[3px] transition-colors;
     }
 
     strong {

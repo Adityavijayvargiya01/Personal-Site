@@ -6,7 +6,7 @@ import { NAV_LINKS } from '@/consts'
 import { Icon } from 'astro-icon/components'
 ---
 
-<header transition:persist>
+<header>
   <div
     class="mx-auto flex max-w-3xl items-center justify-between gap-4 px-4 py-3"
   >
@@ -26,8 +26,8 @@ import { Icon } from 'astro-icon/components'
           ))
         }
       </nav>
-      <MobileMenu client:load transition:persist />
-      <ThemeToggle transition:persist />
+      <MobileMenu client:load />
+      <ThemeToggle />
     </div>
   </div>
 </header>

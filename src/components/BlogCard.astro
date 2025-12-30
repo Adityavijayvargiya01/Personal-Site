@@ -42,7 +42,6 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
             format="webp"
             widths={[200, 400, 600]}
             sizes="(max-width: 640px) 100vw, 400px"
-            transition:name={`blog-image-${entry.id}`}
           />
         </div>
       )

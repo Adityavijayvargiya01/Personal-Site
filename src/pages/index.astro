@@ -5,7 +5,7 @@ import Link from '@/components/Link.astro'
 import PageHead from '@/components/PageHead.astro'
 import ProjectCard from '@/components/ProjectCard.astro'
 import { buttonVariants } from '@/components/ui/button'
-import { FadeIn } from '@/components/ui/motion'
+import { PageTransition, SpringIn } from '@/components/ui/motion'
 import Layout from '@/layouts/Layout.astro'
 import { getAllExperience, getAllBlogs, getAllProjects } from '@/lib/data-utils'
 
@@ -18,116 +18,118 @@ const experience = await getAllExperience()
 <Layout>
   <PageHead slot="head" title="Home" />
   
-  <!-- Hero Section -->
-  <FadeIn client:load delay={0.4}>
-  <section
-    class="mx-auto flex max-w-3xl flex-col justify-center  px-4"
-  >
-    <div>
-      <div>
-        <h3 class="font-poppins mb-2 text-3xl leading-none font-medium">
-          Aditya Vijayvargiya
-        </h3>
-        <span class="text-muted-foreground text-lg">
-          Software Developer Intern <span class="text-blue-500">@Philips</span>
-        </span>
-      </div>
-    </div>
-    <div>
-      <div>
-        <p class="text-muted-foreground mb-5 text-base">
-          Hello there, I'm a software developer from India. I'm currently
-          pursuing a B.Tech in Computer Science. In my journey of software
-          development, I have developed a strong foundation in programming and
-          software development, with particular experience in <Link
-            href="https://nextjs.org"
-            class="text-foreground"
-            external>Next.js</Link
-          > and <Link href="https://react.dev" class="text-foreground" external
-            >React</Link
-          >.
-        </p>
-        <p class="text-muted-foreground mb-5 text-base">
-          One of my favorite hobbies continues to be tinkering with software
-          configurations, whether it's customizing Neovim setups, tweaking UI
-          elements that don't quite feel right, or hunting for the perfect
-          open-source alternative.
-        </p>
-        <p class="text-muted-foreground text-base">
-          I also love staying updated with the latest tech trends and sharing
-          insights with others through blogs and Twitter posts.
-        </p>
-      </div>
-    </div>
-  </section>
-  </FadeIn>
-
-  <!-- Blogs Section -->
-  <FadeIn client:load delay={0.4}>
-  <section id="blogs" class="mx-auto max-w-3xl px-4 py-12">
-    <div>
-      <h2 class="mb-6 text-3xl font-bold">Recent Blogs</h2>
-    </div>
-    <div>
-      <div class="flex flex-col gap-4">
-        {recentBlogs.map((blog) => (
-          <BlogCard entry={blog} />
-        ))}
-      </div>
-      <div class="mt-8 flex justify-center">
-        <Link
-          href="/blogs"
-          class={buttonVariants({ variant: 'outline' })}
-        >
-          Read more blogs
-        </Link>
-      </div>
-    </div>
-  </section>
-  </FadeIn>
-
-  <!-- Experience Section -->
-  <FadeIn client:load delay={0.4}>
-  <section id="experience" class="mx-auto max-w-3xl px-4 py-12">
-    <div>
-      <h2 class="mb-6 text-3xl font-bold">Work Experience</h2>
-      <p class="text-muted-foreground mb-8 text-sm leading-relaxed">
-        Here's a timeline of my professional journey, including internships, projects, and research work that have shaped my skills in software development.
-      </p>
-    </div>
-    <div>
-      <div class="flex flex-col gap-4">
-        {experience.map((exp) => (
+  <PageTransition client:load>
+    <!-- Hero Section -->
+    <SpringIn client:load delay={0.1}>
+      <section
+        class="mx-auto flex max-w-3xl flex-col justify-center px-4"
+      >
+        <div>
           <div>
-            <ExperienceCard experience={exp} />
+            <h3 class="font-poppins mb-2 text-3xl leading-none font-medium">
+              Aditya Vijayvargiya
+            </h3>
+            <span class="text-muted-foreground text-lg">
+              Software Developer Intern <span class="text-blue-500">@Philips</span>
+            </span>
           </div>
-        ))}
-      </div>
-    </div>
-  </section>
-  </FadeIn>
-
-  <!-- Projects Section -->
-  <FadeIn client:load delay={0.4}>
-  <section id="projects" class="mx-auto max-w-3xl px-4 py-12">
-    <div>
-      <h2 class="mb-6 text-3xl font-bold">Projects</h2>
-    </div>
-    <div>
-      <div class="flex flex-col gap-6">
-        {projects.map((project) => (
+        </div>
+        <div>
           <div>
-            <ProjectCard project={project} />
+            <p class="text-muted-foreground mb-5 text-base">
+              Hello there, I'm a software developer from India. I'm currently
+              pursuing a B.Tech in Computer Science. In my journey of software
+              development, I have developed a strong foundation in programming and
+              software development, with particular experience in <Link
+                href="https://nextjs.org"
+                class="text-foreground"
+                external>Next.js</Link
+              > and <Link href="https://react.dev" class="text-foreground" external
+                >React</Link
+              >.
+            </p>
+            <p class="text-muted-foreground mb-5 text-base">
+              One of my favorite hobbies continues to be tinkering with software
+              configurations, whether it's customizing Neovim setups, tweaking UI
+              elements that don't quite feel right, or hunting for the perfect
+              open-source alternative.
+            </p>
+            <p class="text-muted-foreground text-base">
+              I also love staying updated with the latest tech trends and sharing
+              insights with others through blogs and Twitter posts.
+            </p>
           </div>
-        ))}
-      </div>
-    </div>
-  </section>
-  </FadeIn>
+        </div>
+      </section>
+    </SpringIn>
+
+    <!-- Blogs Section -->
+    <SpringIn client:load delay={0.2}>
+      <section id="blogs" class="mx-auto max-w-3xl px-4 py-12">
+        <div>
+          <h2 class="mb-6 text-3xl font-bold">Recent Blogs</h2>
+        </div>
+        <div>
+          <div class="flex flex-col gap-4">
+            {recentBlogs.map((blog) => (
+              <BlogCard entry={blog} />
+            ))}
+          </div>
+          <div class="mt-8 flex justify-center">
+            <Link
+              href="/blogs"
+              class={buttonVariants({ variant: 'outline' })}
+            >
+              Read more blogs
+            </Link>
+          </div>
+        </div>
+      </section>
+    </SpringIn>
+
+    <!-- Experience Section -->
+    <SpringIn client:load delay={0.3}>
+      <section id="experience" class="mx-auto max-w-3xl px-4 py-12">
+        <div>
+          <h2 class="mb-6 text-3xl font-bold">Work Experience</h2>
+          <p class="text-muted-foreground mb-8 text-sm leading-relaxed">
+            Here's a timeline of my professional journey, including internships, projects, and research work that have shaped my skills in software development.
+          </p>
+        </div>
+        <div>
+          <div class="flex flex-col gap-4">
+            {experience.map((exp) => (
+              <div>
+                <ExperienceCard experience={exp} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </SpringIn>
+
+    <!-- Projects Section -->
+    <SpringIn client:load delay={0.4}>
+      <section id="projects" class="mx-auto max-w-3xl px-4 py-12">
+        <div>
+          <h2 class="mb-6 text-3xl font-bold">Projects</h2>
+        </div>
+        <div>
+          <div class="flex flex-col gap-6">
+            {projects.map((project) => (
+              <div>
+                <ProjectCard project={project} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </SpringIn>
+  </PageTransition>
 </Layout>
 
 <script>
-  document.addEventListener('astro:page-load', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     const links = document.querySelectorAll('a[href^="#"]')
     links.forEach(link => {
       link.addEventListener('click', (e) => {

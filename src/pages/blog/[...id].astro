@@ -111,7 +111,6 @@ const blogReadingTime = await getBlogReadingTime(currentBlogId)
           format="webp"
           widths={[600, 900, 1200, 1600]}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 900px, 1200px"
-          transition:name={`blog-image-${currentBlogId}`}
         />
       )
     }
@@ -213,7 +212,7 @@ const blogReadingTime = await getBlogReadingTime(currentBlogId)
   </Button>
 
   <script>
-    document.addEventListener('astro:page-load', () => {
+    document.addEventListener('DOMContentLoaded', () => {
       const scrollToTopButton = document.getElementById('scroll-to-top')
       const footer = document.querySelector('footer')
 

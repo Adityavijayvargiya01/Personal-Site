@@ -4,71 +4,84 @@ import * as React from 'react'
 import { motion, type Variants } from 'motion/react'
 import { cn } from '@/lib/utils'
 
-const fadeInUpVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-  },
+// Spring configuration for smooth, natural animations
+const gentleSpring = {
+  type: 'spring' as const,
+  stiffness: 200,
+  damping: 25,
 }
 
-const fadeInVariants: Variants = {
-  hidden: {
-    opacity: 0,
-  },
-  visible: {
-    opacity: 1,
-  },
-}
-
-interface FadeInProps {
+interface SpringInProps {
   children: React.ReactNode
   className?: string
   delay?: number
-  duration?: number
-  /** Use 'up' for vertical translation, 'fade' for opacity only */
-  variant?: 'up' | 'fade'
+  /** Animation direction: 'up', 'down', 'left', 'right', or 'none' for fade only */
+  direction?: 'up' | 'down' | 'left' | 'right' | 'none'
+  /** Distance to animate from (in pixels) */
+  distance?: number
 }
 
-export function FadeIn({
+export function SpringIn({
   children,
   className,
   delay = 0,
-  duration = 0.5,
-  variant = 'up',
-}: FadeInProps) {
-  const [isReady, setIsReady] = React.useState(false)
+  direction = 'up',
+  distance = 20,
+}: SpringInProps) {
+  const getInitialPosition = () => {
+    switch (direction) {
+      case 'up':
+        return { opacity: 0, y: distance }
+      case 'down':
+        return { opacity: 0, y: -distance }
+      case 'left':
+        return { opacity: 0, x: distance }
+      case 'right':
+        return { opacity: 0, x: -distance }
+      case 'none':
+        return { opacity: 0 }
+    }
+  }
 
-  React.useEffect(() => {
-    // Small delay to ensure DOM is ready after View Transitions
-    const timer = requestAnimationFrame(() => {
-      setIsReady(true)
-    })
-    return () => cancelAnimationFrame(timer)
-  }, [])
-
-  if (!isReady) {
-    // Return children with opacity 0 to prevent flash
-    return (
-      <div className={cn(className)} style={{ opacity: 0 }}>
-        {children}
-      </div>
-    )
+  const getFinalPosition = () => {
+    switch (direction) {
+      case 'up':
+      case 'down':
+        return { opacity: 1, y: 0 }
+      case 'left':
+      case 'right':
+        return { opacity: 1, x: 0 }
+      case 'none':
+        return { opacity: 1 }
+    }
   }
 
   return (
     <motion.div
-      initial="hidden"
-      animate="visible"
-      variants={variant === 'up' ? fadeInUpVariants : fadeInVariants}
+      initial={getInitialPosition()}
+      animate={getFinalPosition()}
       transition={{
-        duration,
+        ...gentleSpring,
         delay,
-        ease: [0.21, 0.47, 0.32, 0.98],
       }}
+      className={cn(className)}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+interface PageTransitionProps {
+  children: React.ReactNode
+  className?: string
+}
+
+export function PageTransition({ children, className }: PageTransitionProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={gentleSpring}
       className={cn(className)}
     >
       {children}
@@ -83,34 +96,22 @@ interface StaggerContainerProps {
   initialDelay?: number
 }
 
-const staggerContainerVariants: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-}
-
 const staggerItemVariants: Variants = {
   hidden: {
     opacity: 0,
-    y: 24,
+    y: 16,
   },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.21, 0.47, 0.32, 0.98],
-    },
+    transition: gentleSpring,
   },
 }
 
 export function StaggerContainer({
   children,
   className,
-  staggerDelay = 0.1,
+  staggerDelay = 0.08,
   initialDelay = 0,
 }: StaggerContainerProps) {
   return (
@@ -145,3 +146,6 @@ export function StaggerItem({ children, className }: StaggerItemProps) {
     </motion.div>
   )
 }
+
+// Alias for backward compatibility
+export { SpringIn as FadeIn }

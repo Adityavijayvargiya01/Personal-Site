@@ -2,6 +2,7 @@
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import ExperienceCard from '@/components/ExperienceCard.astro'
 import PageHead from '@/components/PageHead.astro'
+import { PageTransition, SpringIn } from '@/components/ui/motion'
 import Layout from '@/layouts/Layout.astro'
 import { getAllExperience } from '@/lib/data-utils'
 
@@ -11,25 +12,31 @@ const experience = await getAllExperience()
 <Layout>
   <PageHead slot="head" title="Experience" />
   <Breadcrumbs items={[{ label: 'Experience', icon: 'ph:briefcase-duotone' }]} />
-  <section>
-    <div>
-      <div class="min-w-full">
-        <div>
-          <h1 class="mb-6 text-3xl font-bold">Work Experience</h1>
-          <p class="text-muted-foreground mb-8 text-sm leading-relaxed">
-            Here's a timeline of my professional journey, including internships, projects, and research work that have shaped my skills in software development.
-          </p>
-        </div>
-        <div>
-          <div class="flex flex-col gap-4">
-            {experience.map((exp, index) => (
-              <div>
-                <ExperienceCard experience={exp} />
+  <PageTransition client:load>
+    <section>
+      <div>
+        <div class="min-w-full">
+          <SpringIn client:load delay={0.1}>
+            <div>
+              <h1 class="mb-6 text-3xl font-bold">Work Experience</h1>
+              <p class="text-muted-foreground mb-8 text-sm leading-relaxed">
+                Here's a timeline of my professional journey, including internships, projects, and research work that have shaped my skills in software development.
+              </p>
+            </div>
+          </SpringIn>
+          <SpringIn client:load delay={0.15}>
+            <div>
+              <div class="flex flex-col gap-4">
+                {experience.map((exp) => (
+                  <div>
+                    <ExperienceCard experience={exp} />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          </SpringIn>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </PageTransition>
 </Layout>

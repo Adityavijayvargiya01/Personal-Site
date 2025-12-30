@@ -22,10 +22,12 @@ const readTime = await getCombinedReadingTime(entry.id)
 const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
 ---
 
-<div class="group rounded-xl border p-4">
+<div
+  class="group hover:bg-secondary/50 rounded-xl p-4"
+>
   <Link
     href={`/${entry.collection}/${entry.id}`}
-    class="flex !transform-none flex-col gap-4 sm:flex-row"
+    class="flex flex-col gap-4 sm:flex-row"
   >
     {
       entry.data.image && (
@@ -48,10 +50,16 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
     }
 
     <div class="flex-1">
-      <h3 class="font-poppins mb-1 text-xl font-bold group-hover:text-link transition-colors">
+      <h3
+        class="font-poppins mb-1 text-base font-bold transition-colors"
+      >
         {entry.data.title}
       </h3>
-      <p class="text-muted-foreground mb-2 text-sm">{entry.data.description}</p>
+      <p
+        class="text-muted-foreground group-hover:text-foreground mb-2 text-sm transition-colors"
+      >
+        {entry.data.description}
+      </p>
       <div
         class="text-muted-foreground mb-2 flex flex-wrap items-center gap-x-2 text-xs"
       >
@@ -75,11 +83,7 @@ const subpostCount = !isSubpost(entry.id) ? await getSubpostCount(entry.id) : 0
         entry.data.tags && (
           <div class="flex flex-wrap gap-2">
             {entry.data.tags.map((tag) => (
-              <Badge
-                variant="secondary"
-              >
-                {tag}
-              </Badge>
+              <Badge variant="secondary">{tag}</Badge>
             ))}
           </div>
         )

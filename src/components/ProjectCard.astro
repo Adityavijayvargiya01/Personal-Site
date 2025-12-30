@@ -15,7 +15,7 @@ const isExternal = project.data.link.startsWith('http')
 ---
 
 <div
-  class="project-card group hover:bg-secondary/50 rounded-xl border p-4"
+  class="project-card group hover:bg-secondary/50 rounded-xl p-4"
   data-scroll
   data-scroll-animation="slide-up-soft"
 >
@@ -26,13 +26,13 @@ const isExternal = project.data.link.startsWith('http')
   >
     {
       project.data.image && (
-        <div class="w-full overflow-hidden rounded-xl sm:max-w-3xs sm:shrink-0">
+        <div class="w-full overflow-hidden sm:max-w-3xs sm:shrink-0">
           <Image
             src={project.data.image}
             alt={project.data.name}
             width={400}
             height={210}
-            class="w-full rounded-xl object-cover"
+            class="w-full object-cover"
             quality={85}
             loading="lazy"
             decoding="async"
@@ -44,9 +44,7 @@ const isExternal = project.data.link.startsWith('http')
       )
     }
     <div class="grow">
-      <h3
-        class="group-hover:text-link transition-colors mb-1 text-lg font-medium"
-      >
+      <h3 class="mb-1 text-lg font-medium transition-colors">
         {project.data.name}
       </h3>
       <p class="text-muted-foreground mb-2 text-sm">
@@ -71,7 +69,7 @@ const isExternal = project.data.link.startsWith('http')
         project.data.tags && (
           <div class="flex flex-wrap gap-2">
             {project.data.tags.map((tag: string) => (
-              <Badge variant="secondary">{tag}</Badge>
+              <Badge variant="outline">{tag}</Badge>
             ))}
           </div>
         )

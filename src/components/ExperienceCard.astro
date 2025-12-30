@@ -14,7 +14,7 @@ const { experience } = Astro.props
 ---
 
 <div
-  class="hover:bg-secondary/50 rounded-xl border p-4 group"
+  class="hover:bg-secondary/50 rounded-xl p-4 group"
 ><div class="flex flex-col gap-4">
     <div class="flex justify-start sm:shrink-0">
       {        experience.data.image ? (
@@ -24,7 +24,7 @@ const { experience } = Astro.props
               alt={`${experience.data.company} logo`}
               width={192}
               height={192}
-              class="object-contain w-full h-full"
+              class="object-contain w-full h-full p-2"
               quality={100}
             />
           </div>
@@ -38,7 +38,7 @@ const { experience } = Astro.props
     <div class="grow">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
         <div>
-          <h3 class="text-lg font-medium group-hover:text-link transition-colors">
+          <h3 class="text-lg font-medium transition-colors">
             {experience.data.position}
           </h3>
           <p class="text-foreground/80 text-base font-medium group-hover:text-foreground">

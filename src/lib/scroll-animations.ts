@@ -1,6 +1,6 @@
 export class ScrollAnimationObserver {
-  observe(element: Element): void {}
-  observeAll(selector?: string): void {}
+  observe(_element: Element): void {}
+  observeAll(_selector?: string): void {}
   disconnect(): void {}
 }
 

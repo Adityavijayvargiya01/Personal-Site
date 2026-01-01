@@ -11,8 +11,28 @@ const { post } = Astro.props
 
 const title = post.data.title || SITE.title
 const description = post.data.description || SITE.description
-const image = new URL('static/pagebanner2.png', Astro.site).href
+const fallbackImage = new URL('static/pagebanner2.png', Astro.site).href
 const author = post.data.author || SITE.author
+
+// Build the OG image URL properly
+// Note: We use the original image source, not Astro-optimized WebP
+// Twitter/X has poor WebP support and renders them blurry
+let ogImage = fallbackImage
+if (post.data.image?.src) {
+  const imageSrc = post.data.image.src
+  // Handle both absolute and relative paths
+  if (imageSrc.startsWith('http')) {
+    ogImage = imageSrc
+  } else if (imageSrc.startsWith('/')) {
+    ogImage = `${SITE.href}${imageSrc}`
+  } else {
+    ogImage = `${SITE.href}/${imageSrc}`
+  }
+}
+
+// For Twitter, ensure we're not serving WebP (convert path if needed)
+// Astro outputs /_astro/image.hash.webp but we want the original
+const twitterImage = ogImage.includes('/_astro/') ? fallbackImage : ogImage
 ---
 
 <title>{`${title} | ${SITE.title}`}</title>
@@ -24,32 +44,24 @@ const author = post.data.author || SITE.author
 
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta
-  property="og:image"
-  content={post?.data?.image?.src
-    ? `${SITE.href}${post.data.image.src}`
-    : image}
-/>
+<meta property="og:image" content={ogImage} />
 <meta property="og:image:alt" content={title} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
 <meta property="og:locale" content={SITE.locale} />
 <meta property="og:site_name" content={SITE.title} />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:author" content={author} />
+{post.data.date && <meta property="article:published_time" content={post.data.date.toISOString()} />}
 
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta
-  property="twitter:image"
-  content={post?.data?.image?.src
-    ? `${SITE.href}${post.data.image.src}`
-    : image}
-/>
+<meta name="twitter:image" content={twitterImage} />
 <meta name="twitter:image:alt" content={title} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:creator" content={author} />
+<meta name="twitter:site" content="@adityavijay01" />
 
 {
   post?.data.tags &&

@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
+import vercel from '@astrojs/vercel'
 import icon from 'astro-icon'
 
 import expressiveCode from 'astro-expressive-code'
@@ -20,6 +21,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   output: 'static',
+  adapter: vercel(),
   site: 'https://adityavijayvargiya.me',
   image: {
     domains: ['adityavijayvargiya.me'],

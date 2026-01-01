@@ -1,0 +1,242 @@
+---
+// LinkPreview component - renders the preview card container and handles hover logic
+---
+
+<!-- React component for the animated card -->
+<div id="link-preview-root"></div>
+
+<script>
+  import { createRoot, type Root } from 'react-dom/client'
+  import { createElement } from 'react'
+  import { LinkPreviewCard } from '@/components/ui/link-preview-card'
+
+  interface OGData {
+    title?: string
+    description?: string
+    image?: string
+    siteName?: string
+    url?: string
+    favicon?: string
+    error?: string
+  }
+
+  interface PreviewState {
+    data: OGData | null
+    isVisible: boolean
+    position: { x: number; y: number }
+  }
+
+  const cache = new Map<string, OGData>()
+  const pendingFetches = new Map<string, Promise<OGData>>()
+  let currentHoveredLink: HTMLAnchorElement | null = null
+  let hoverTimeout: ReturnType<typeof setTimeout> | null = null
+  let hideTimeout: ReturnType<typeof setTimeout> | null = null
+  let root: Root | null = null
+
+  let state: PreviewState = {
+    data: null,
+    isVisible: false,
+    position: { x: 0, y: 0 },
+  }
+
+  function render() {
+    if (!root) return
+    root.render(
+      createElement(LinkPreviewCard, {
+        data: state.data,
+        isLoading: false, // Never show loading state
+        isVisible: state.isVisible,
+        position: state.position,
+      })
+    )
+  }
+
+  function updateState(partial: Partial<PreviewState>) {
+    state = { ...state, ...partial }
+    render()
+  }
+
+  async function fetchOGData(url: string): Promise<OGData> {
+    if (cache.has(url)) {
+      return cache.get(url)!
+    }
+
+    // Check if already fetching this URL
+    if (pendingFetches.has(url)) {
+      return pendingFetches.get(url)!
+    }
+
+    const fetchPromise = (async () => {
+      try {
+        const response = await fetch(`/api/og-preview?url=${encodeURIComponent(url)}`)
+        const data: OGData = await response.json()
+        cache.set(url, data)
+        pendingFetches.delete(url)
+        return data
+      } catch {
+        const errorData: OGData = { error: 'Failed to fetch' }
+        cache.set(url, errorData)
+        pendingFetches.delete(url)
+        return errorData
+      }
+    })()
+
+    pendingFetches.set(url, fetchPromise)
+    return fetchPromise
+  }
+
+  function isExternalLink(link: HTMLAnchorElement): boolean {
+    const href = link.href
+    if (!href || href.startsWith('#') || href.startsWith('javascript:')) return false
+    if (href.startsWith('mailto:') || href.startsWith('tel:')) return false
+
+    try {
+      const url = new URL(href)
+      return url.origin !== window.location.origin
+    } catch {
+      return false
+    }
+  }
+
+  // Preload all external link previews on page load
+  function preloadAllPreviews() {
+    const externalLinks = new Set<string>()
+    
+    document.querySelectorAll('a').forEach((link) => {
+      if (isExternalLink(link)) {
+        externalLinks.add(link.href)
+      }
+    })
+
+    // Fetch all unique external URLs in parallel (with concurrency limit)
+    const urls = Array.from(externalLinks)
+    const concurrencyLimit = 5
+    
+    async function fetchBatch(startIndex: number) {
+      const batch = urls.slice(startIndex, startIndex + concurrencyLimit)
+      if (batch.length === 0) return
+      
+      await Promise.all(batch.map(url => fetchOGData(url)))
+      
+      // Fetch next batch
+      if (startIndex + concurrencyLimit < urls.length) {
+        await fetchBatch(startIndex + concurrencyLimit)
+      }
+    }
+
+    // Start prefetching
+    fetchBatch(0)
+  }
+
+  function calculatePosition(event: MouseEvent): { x: number; y: number } {
+    const padding = 16
+    const cardWidth = 320
+    const cardHeight = 320
+
+    let x = event.clientX + padding
+    let y = event.clientY + padding
+
+    // Adjust if card would go off right edge
+    if (x + cardWidth > window.innerWidth) {
+      x = event.clientX - cardWidth - padding
+    }
+
+    // Adjust if card would go off bottom edge
+    if (y + cardHeight > window.innerHeight) {
+      y = event.clientY - cardHeight - padding
+    }
+
+    // Ensure card doesn't go off left or top edge
+    x = Math.max(padding, x)
+    y = Math.max(padding, y)
+
+    return { x, y }
+  }
+
+  function handleMouseEnter(event: MouseEvent) {
+    const link = event.target as HTMLAnchorElement
+    if (!isExternalLink(link)) return
+
+    // Clear any pending hide timeout
+    if (hideTimeout) {
+      clearTimeout(hideTimeout)
+      hideTimeout = null
+    }
+
+    currentHoveredLink = link
+    updateState({ position: calculatePosition(event) })
+
+    // Check if data is already cached
+    const cachedData = cache.get(link.href)
+    
+    if (cachedData && !cachedData.error && (cachedData.title || cachedData.description)) {
+      // Data ready - show immediately with small delay for UX
+      hoverTimeout = setTimeout(() => {
+        if (currentHoveredLink !== link) return
+        updateState({ isVisible: true, data: cachedData })
+      }, 150)
+    } else {
+      // Data not ready yet - wait for it, then show
+      hoverTimeout = setTimeout(async () => {
+        if (currentHoveredLink !== link) return
+
+        const data = await fetchOGData(link.href)
+
+        if (currentHoveredLink === link && !data.error && (data.title || data.description)) {
+          updateState({ isVisible: true, data })
+        }
+      }, 300)
+    }
+  }
+
+  function handleMouseLeave() {
+    if (hoverTimeout) {
+      clearTimeout(hoverTimeout)
+      hoverTimeout = null
+    }
+
+    currentHoveredLink = null
+
+    // Delay before hiding to allow moving to card
+    hideTimeout = setTimeout(() => {
+      updateState({ isVisible: false })
+    }, 100)
+  }
+
+  function handleMouseMove(event: MouseEvent) {
+    if (currentHoveredLink) {
+      updateState({ position: calculatePosition(event) })
+    }
+  }
+
+  // Attach event listeners to all links
+  function initLinkPreviews() {
+    // Initialize React root
+    const container = document.getElementById('link-preview-root')
+    if (container && !root) {
+      root = createRoot(container)
+      render()
+    }
+
+    document.querySelectorAll('a').forEach((link) => {
+      // Remove existing listeners to prevent duplicates
+      link.removeEventListener('mouseenter', handleMouseEnter)
+      link.removeEventListener('mouseleave', handleMouseLeave)
+      link.removeEventListener('mousemove', handleMouseMove)
+
+      // Add fresh listeners
+      link.addEventListener('mouseenter', handleMouseEnter)
+      link.addEventListener('mouseleave', handleMouseLeave)
+      link.addEventListener('mousemove', handleMouseMove)
+    })
+
+    // Preload all external link previews
+    preloadAllPreviews()
+  }
+
+  // Initialize on page load
+  initLinkPreviews()
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initLinkPreviews)
+</script>
